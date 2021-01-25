@@ -13,7 +13,6 @@ pipeline:
     cache_dir: ./tmp
     model_name: bert
     model_weights: pre_models
-    epochs: 100
   - name: DIETClassifier
     epochs: 100
   - name: EntitySynonymMapper

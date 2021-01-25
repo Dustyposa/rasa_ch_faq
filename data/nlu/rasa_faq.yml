@@ -16,6 +16,9 @@ nlu:
   - intent: rasa_faq/channels
     examples: |
       - Channels
+      - channels 是啥
+      - channels 能干啥？
+      - 我想接其他通道
       - rasa 支持哪些 channels？
       - 如何在 slack 上设置 rasax
       - Rasa 支持微信吗？

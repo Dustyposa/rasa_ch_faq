@@ -9,3 +9,6 @@
 
 ## 一些配置
 分词使用的 `bert`， 自定义了 [`tokenizers`](./piplines/tokenizers.py) 
+
+## 运行示例
+![image.png](https://i.loli.net/2021/01/25/WndRk2ahfeI4i38.png)
