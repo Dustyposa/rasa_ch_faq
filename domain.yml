@@ -1,0 +1,36 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - rasa_faq
+
+responses:
+  utter_greet:
+  - text: "嘿！最近怎样?"
+
+  utter_cheer_up:
+  - text: "让我们来庆祝一下！"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "有帮到你吗?"
+
+  utter_happy:
+  - text: "好的，继续加油！"
+
+  utter_goodbye:
+  - text: "Bye"
+  - text: "拜"
+
+  utter_iamabot:
+  - text: "我是基于 Rasa 的机器人🤖"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

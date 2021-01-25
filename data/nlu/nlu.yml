@@ -1,0 +1,123 @@
+version: "2.0"
+
+nlu:
+  - intent: greet
+    examples: |
+      - 你好
+      - 嗨
+      - 您好
+      - 早上好
+      - 下午好
+      - 晚上好
+      - 早
+      - 冲
+
+  - intent: goodbye
+    examples: |
+      - good afternoon
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+      - 明天见
+      - 下次再见
+      - 有缘再见
+      - 江湖再见
+
+
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+      - 好
+      - 没问题
+      - 搞得定
+      - ok了
+      - 解决了
+
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+      - 不
+      - 不要
+      - 不是的
+      - 不用这样吧
+
+
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+      - 完美
+      - 棒极了
+      - 太帅了
+      - 棒呆了
+      - oh my god
+      - 你是最棒的
+      - 不错哟
+      - 不错
+
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+      - 太难了吧
+      - 不要吧
+      - 血亏
+      - 难受
+      - 有点难
+      - 哭了
+      - 一把辛酸泪
+
+
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+      - 你是机器人吗？
+      - 我在和机器人说话？
+      - 我去，你是机器人？
+      - 你是真人吗？
+      - 真人？

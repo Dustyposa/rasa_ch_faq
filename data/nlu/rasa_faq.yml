@@ -1,0 +1,51 @@
+version: "2.0"
+nlu:
+  - intent: rasa_faq/rasax
+    examples: |
+      - RasaX 是啥？
+      - RasaX 是什么？
+      - 你能解释一下 RasaX 吗？
+      - 你能告诉我什么是 RasaX 吗？
+      - 告诉我啥是 Rasa X？
+      - 我想了解一下 Rasa X
+      - 帮我解释一下 Rasa X
+      - rasax
+      - Rasax
+      - Rasa X
+
+  - intent: rasa_faq/channels
+    examples: |
+      - Channels
+      - rasa 支持哪些 channels？
+      - 如何在 slack 上设置 rasax
+      - Rasa 支持微信吗？
+      - rasa 支持QQ吗？
+      - rasa支持语音吗？
+      - rasa支持消息通道吗？
+      - rasa支持的消息通道
+
+  - intent: rasa_faq/build_faq
+    examples: |
+      - 如何创建faq
+      - rasa 如何搞 faq
+      - 怎么创建faq机器人
+      - 怎么创建闲聊机器人？
+      - 你的机器人怎么搭建的
+      - 怎么搭建问答机器人
+      - 问答机器人
+      - faq bot
+      - 问答或者闲聊机器人
+
+  - intent: rasa_faq/build_voice_rasa
+    examples: |
+      - 语音如何接入rasa
+      - rasa支持语音吗？
+      - 语音机器人
+      - 语音机器人的教程有吗？
+      - 语音机器人怎么弄？
+      - 你会弄语音机器人吗？
+      - 语音问答
+      - 如何接入语音
+      - 语音接入rasa
+      - 语音可以用吗？
+      - 你支持语音机器人吗？

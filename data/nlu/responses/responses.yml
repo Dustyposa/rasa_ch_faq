@@ -1,0 +1,20 @@
+version: "2.0"
+responses:
+  utter_rasa_faq/rasax:
+    - text: "Rasa X是一个工具集，可以帮助您利用对话来改善您的助手。
+                了解更多关于Rasa X的信息[这里](https://rasa.com/docs/rasa-x/)，或阅读博客文章，了解我们开发它的原因。
+                [此处](https://blog.rasa.com/algorithms-alone-wont-solve-conversational-ai-introducing-rasa-x/)"
+  utter_rasa_faq/channels:
+    - text: "我们有一份[支持的连接器综合清单]（https://rasa.com/docs/core/connectors/）。
+                但如果没有你要找的那个，你可以通过以下方法创建一个自定义的连接器。
+                [本指南]（https://rasa.com/docs/rasa/user-guide/connectors/custom-connectors/）."
+
+  utter_rasa_faq/build_faq:
+    - text: "创建 faq 最重要的就是配置 ResponseSelector 中的 retrieval_intent，
+    以及 Rule 中配置对应关系
+    详情可以参见：[FAQ/Chitchat 配置指南](https://rasa.com/docs/rasa/chitchat-faqs)"
+
+  utter_rasa_faq/build_voice_rasa:
+    - text: "定制语音机器人最重要的是更改给 rasa 的输入和输出。主要是 channel 这一层实现。
+    教程参考: [基于 rasa 的语音助手搭建](https://dustyposa.github.io/posts/d7e97916/)"
+
