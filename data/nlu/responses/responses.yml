@@ -18,3 +18,17 @@ responses:
     - text: "定制语音机器人最重要的是更改给 rasa 的输入和输出。主要是 channel 这一层实现。
     教程参考: [基于 rasa 的语音助手搭建](https://dustyposa.github.io/posts/d7e97916/)"
 
+  utter_rasa_faq/deactivate_form:
+    - text: "有两种方式。
+    1.不使用 form action，在 story/rules 中使用  `action_deactivate_loop`。可参照:[表单机器人](https://github.com/RasaHQ/rasa/blob/main/examples/formbot/data/stories.yml)\n
+    2. 使用 form action，实现 `next_requested_slot` 或者 `required_slots` 等方法。"
+
+  utter_rasa_faq/participles:
+    - text: "中文分词的话需要 tokenizer 以及 feature。token 这部分一般来说有 3 种解法。\n
+    1. Jieba分词，官方自带有 `JiebaTokenizer` 可以使用。\n
+    2. Bert 分词/分字，这部分需要自己实现一个 tokenizer，可以参照本项目。\n
+    3. 自定义实现，自己继承 Tokenizer/Component 根据规则自己实现。\n
+
+    feature 这部分，一般使用:\n
+    `LanguageModelFeaturizer` 即可
+    "

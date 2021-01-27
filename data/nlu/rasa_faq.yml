@@ -52,3 +52,21 @@ nlu:
       - 语音接入rasa
       - 语音可以用吗？
       - 你支持语音机器人吗？
+
+  - intent: rasa_faq/deactivate_form
+    examples: |
+      - 如何退出form
+      - 如何退出表单
+      - 怎么停止表单
+      - 停止表单
+      - 中断form
+      - 我想中断表单，怎么做？
+
+  - intent: rasa_faq/participles
+    examples: |
+      - rasa 怎么中文分词
+      - 怎么分词
+      - rasa支持中文吗
+      - 中文可以用吗
+      - 你支持中文吗？
+      - 中文好用吗？
