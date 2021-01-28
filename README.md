@@ -21,3 +21,10 @@ rasa train
 
 ## 运行示例
 ![image.png](https://i.loli.net/2021/01/25/WndRk2ahfeI4i38.png)
+
+
+### 一些文件说明
+```
+run.py  # 相当于运行 rasa run
+train.py  # == rasa train
+```
