@@ -70,3 +70,20 @@ nlu:
       - 中文可以用吗
       - 你支持中文吗？
       - 中文好用吗？
+
+  - intent: rasa_faq/debug
+    examples: |
+      - 怎么调试rasa代码
+      - 你怎么调试
+      - pycharm调试rasa
+      - 如何调试
+      - 怎么看每一步运行结果
+      - 怎么把命令行转代码？
+
+  - intent: rasa_faq/hot_update_model
+    examples: |
+      - 模型可以热更新吗？
+      - 怎么热更新模型呢？
+      - 你知道怎么不停机更新吗？
+      - 怎么可以直接更新模型呢？
+      - 我想热更新模型
