@@ -87,3 +87,12 @@ nlu:
       - 你知道怎么不停机更新吗？
       - 怎么可以直接更新模型呢？
       - 我想热更新模型
+
+  - intent: rasa_faq/api_doc
+    examples: |
+      - rasa api模式的文档
+      - 怎么通过api访问rasa
+      - rasa的接口
+      - rasa有哪些接口
+      - 接口文档有吗？
+      - 怎么通过接口访问rasa？

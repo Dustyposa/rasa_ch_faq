@@ -32,10 +32,10 @@ responses:
     feature 这部分，一般使用:\n
     `LanguageModelFeaturizer` 即可
     "
-  rasa_faq/debug:
+  utter_rasa_faq/debug:
     - text: "把命令行转化为代码即可。[参考代码](https://github.com/Dustyposa/rasa_ch_faq/blob/main/run.py)"
 
-  rasa_faq/hot_update_model:
+  utter_rasa_faq/hot_update_model:
     - text: "方法目前知道的有三种。\n
     1. 在 `endpoints.yml` 中配置更新地址以及更新时间。
     models:\n
@@ -43,5 +43,10 @@ responses:
       wait_time_between_pulls:  10   # [optional](default: 100)\n
     2. 调用模型更新接口 /models  \n
     3. 手动加载模型。创建新的 `agent`
+    "
+
+  utter_rasa_faq/api_doc:
+    - text: "运行： `rasa run --enable-api` 开启全 api 模式
+    [文档在这里](https://rasa.com/docs/rasa/pages/http-api)
     "
 
