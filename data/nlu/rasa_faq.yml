@@ -96,3 +96,11 @@ nlu:
       - rasa有哪些接口
       - 接口文档有吗？
       - 怎么通过接口访问rasa？
+
+  - intent: rasa_faq/response_change
+    examples: |
+      - 更改 response 也要重新训练吗？
+      - 能不重新训练吗？
+      - 怎么加速response的训练时间
+      - 直接修改response
+

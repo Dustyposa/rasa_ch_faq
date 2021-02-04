@@ -50,3 +50,5 @@ responses:
     [文档在这里](https://rasa.com/docs/rasa/pages/http-api)
     "
 
+  utter_rasa_faq/response_change:
+    - text: "更改训练好的模型文件即可。解压后一个 `domain.yml`, 修改后再次 打包成新的模型文件即可。（个人方案，仅供参考）"
