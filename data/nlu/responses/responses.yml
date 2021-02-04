@@ -52,3 +52,11 @@ responses:
 
   utter_rasa_faq/response_change:
     - text: "更改训练好的模型文件即可。解压后一个 `domain.yml`, 修改后再次 打包成新的模型文件即可。（个人方案，仅供参考）"
+
+  utter_rasa_faq/response_format:
+    - text: "使用 format 语法 `{XXX}` 即可，详情可参考 [文档](https://rasa.com/docs/rasa/responses#response-variations)\n
+    ps: 在 custom 中使用 `{}` 语法也会自动格式化"
+
+
+  utter_rasa_faq/get_tracker_in_channel:
+    - text: "从 `request.app.agent.tracker_store.get_or_create_tracker(sender_id)` 中获取。"

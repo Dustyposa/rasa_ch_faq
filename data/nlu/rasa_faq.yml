@@ -104,3 +104,15 @@ nlu:
       - 怎么加速response的训练时间
       - 直接修改response
 
+  - intent: rasa_faq/response_format
+    examples: |
+      - 怎么把返回的值弄成变量
+      - utter 可以返回变量吗？
+      - 可以根据slot值返回吗？
+
+
+  - intent: rasa_faq/get_tracker_in_channel
+    examples: |
+      - 怎么在channel里面获取tracker
+      - 从哪里可以获取tracker？
+      - 我怎么才能获取到tracker？
