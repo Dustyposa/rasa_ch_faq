@@ -28,3 +28,9 @@ rasa train
 run.py  # 相当于运行 rasa run
 train.py  # == rasa train
 ```
+### 一些工具
+```bash
+back_translation.py  # 回译脚本
+# 使用方式
+python back_translation.py 需要回译的文本
+```
