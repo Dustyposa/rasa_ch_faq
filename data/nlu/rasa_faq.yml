@@ -116,3 +116,17 @@ nlu:
       - 怎么在channel里面获取tracker
       - 从哪里可以获取tracker？
       - 我怎么才能获取到tracker？
+
+  - intent: rasa_faq/get_bot_latest_msg
+    examples: |
+      - 机器人的回话在哪里获取
+      - 怎么知道机器人上次回复的什么？
+      - 机器人的回复记录有吗？
+      - 机器人上次说的啥？
+      - rasa上次说的啥在哪里查？
+
+  - intent: rasa_faq/自定义回复
+    examples: |
+      - 怎么根据对话轮数设定不同的询问？
+      - 怎么自定义回复话术呢？
+      - 如何每次换不一样的问法？

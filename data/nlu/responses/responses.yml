@@ -60,3 +60,9 @@ responses:
 
   utter_rasa_faq/get_tracker_in_channel:
     - text: "从 `request.app.agent.tracker_store.get_or_create_tracker(sender_id)` 中获取。"
+
+  utter_rasa_faq/get_bot_latest_msg:
+    - text: bot_event = next(e for e in reversed(tracker.events) if e["event"] == "bot")
+
+  utter_rasa_faq/自定义回复:
+    - text: "需要自定义一个 `action`, [参考文档](https://rasa.com/docs/rasa/forms#using-a-custom-action-to-ask-for-the-next-slot)  \n 需要注意的是，`action_ask_{form_name}_{slot_name}` 的优先级大于 `action_ask_{form_name}`\n 整体的优先级排序为 `action_ask_{form_name}_{slot_name}` \n `utter_ask_{form_name}_{slot_name}` \n `action_ask_{form_name}` \n `utter_ask_{form_name}`"
