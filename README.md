@@ -27,6 +27,7 @@ rasa train
 ```
 run.py  # 相当于运行 rasa run
 train.py  # == rasa train
+run_action_server.py  # == rasa run actions
 ```
 ### 一些工具
 ```bash
