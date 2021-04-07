@@ -84,3 +84,17 @@ responses:
   utter_rasa_faq/获取当前表单名称:
     - text: "可以先获取 `tracker`,使用 `tracker.loop_name` 即可。
     当然，知道当前的 `loop_name` 之后，我们就可以检测是否退出表单啦！可以利用 `redis` 之类存储当前的 `loop_name`， 和下一次 `loop_name` 进行比较即可。"
+
+  utter_rasa_faq/中文命名:
+    - text: "都可以用中文的，毕竟只是一个 key。
+    你可以这样:
+    intent:
+      - 意图1
+      - 意图2
+    也可以这样:
+    responses:
+      - utter_回复1: ...
+    当然，form 也不例外:
+    forms:
+      - 吃饭了没_form: ...
+    "
