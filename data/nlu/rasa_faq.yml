@@ -143,6 +143,7 @@ nlu:
       - 怎么知道当前用户是在哪个 form 呢？
       - 用户当前激活的哪个表单
       - 怎么获取 form name呢？
+      - 用户当前激活的哪个表单
 
   - intent: rasa_faq/中文命名
     examples: |
@@ -150,3 +151,24 @@ nlu:
       - 意图可以用中文吗？
       - rasa文件可以用中文吗？
       - form可以用中文吗？
+
+#  - intent: rasa_faq/加快训练速度
+#    examples: |
+#      - 怎么才能加速训练呢？
+#      - 训练好慢啊，怎么办
+#      - 训练搞快点啊！！！
+#      - 你训练咋这么慢啊，大哥，给力点啊。
+#      - 训练怎么才能gkd啊
+
+  - synonym: form
+    examples: |
+      - 表单
+
+  - synonym: intent
+    examples: |
+      - 意图
+
+  - synonym: entity
+    examples: |
+      - 实体
+
