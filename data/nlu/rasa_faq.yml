@@ -137,3 +137,9 @@ nlu:
       - session和tracker的区别
       - session的数据存储了，tracker 为什么要存储
       - session过期了 tracker会过期吗？
+
+  - intent: rasa_faq/获取当前表单名称
+    examples:
+      - 怎么知道当前用户是在哪个 form 呢？
+      - 用户当前激活的哪个表单
+      - 怎么获取 form name呢？
