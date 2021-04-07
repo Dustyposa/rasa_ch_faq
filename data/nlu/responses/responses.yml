@@ -77,3 +77,6 @@ responses:
     - text: "需要自定义一个 `action`, [参考文档](https://rasa.com/docs/rasa/forms#using-a-custom-action-to-ask-for-the-next-slot)  \n 需要注意的是，`action_ask_{form_name}_{slot_name}` 的优先级大于 `action_ask_{form_name}`\n 整体的优先级排序为 `action_ask_{form_name}_{slot_name}` \n `utter_ask_{form_name}_{slot_name}` \n `action_ask_{form_name}` \n `utter_ask_{form_name}`"
 
 
+  utter_rasa_faq/session和tracker的区别:
+    - text: "`session` 代表当前会话，`tracker` 所有的数据代表的是用户的所有会话，当 `session` 过期时（`session_expiration_time` 设置过期时间），`tracker` 不会消失。
+    但是需要注意的是，`session` 过期时，当前用户状态会被重置（比如表单会直接退出）。"

@@ -131,3 +131,9 @@ nlu:
       - 怎么根据对话轮数设定不同的询问？
       - 怎么自定义回复话术呢？
       - 如何每次换不一样的问法？
+
+  - intent: rasa_faq/session和tracker的区别
+    examples:
+      - session和tracker的区别
+      - session的数据存储了，tracker 为什么要存储
+      - session过期了 tracker会过期吗？
