@@ -34,3 +34,4 @@ policies:
      max_history: 5
      epochs: 100
    - name: RulePolicy
+     core_fallback_threshold: 0.5

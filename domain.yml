@@ -31,6 +31,9 @@ responses:
   utter_iamabot:
   - text: "我是基于 Rasa 的机器人🤖"
 
+  utter_default:
+    - text: "不好意思，你这个问题太高深啦。可以在 issue 中提问哦，切换为更智能的 AI！"
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
