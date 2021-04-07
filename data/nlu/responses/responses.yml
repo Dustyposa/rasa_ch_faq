@@ -64,7 +64,11 @@ responses:
 
 
   utter_rasa_faq/get_tracker_in_channel:
-    - text: "从 `request.app.agent.tracker_store.get_or_create_tracker(sender_id)` 中获取。"
+    - text: "分为两种情况
+    1. 如果是新用户（没有 `tracker` 记录）从 `request.app.agent.tracker_store.get_or_create_tracker(sender_id)` 中获取。
+    2。 如果是老用户， 从 `request.app.agent.tracker_store.retrieve(sender_id)`
+    备注： 当然，第一种是万能的，但是需要根据实际情况选择，接口开放的权限不同。
+    "
 
   utter_rasa_faq/get_bot_latest_msg:
     - text: bot_event = next(e for e in reversed(tracker.events) if e["event"] == "bot")
