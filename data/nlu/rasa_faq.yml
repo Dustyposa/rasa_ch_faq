@@ -96,6 +96,7 @@ nlu:
       - rasa有哪些接口
       - 接口文档有吗？
       - 怎么通过接口访问rasa？
+      - API的形式调用Rasa的地址是多少以及需要传递什么参数？
 
   - intent: rasa_faq/response_change
     examples: |

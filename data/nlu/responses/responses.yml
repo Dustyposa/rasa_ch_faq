@@ -48,6 +48,11 @@ responses:
   utter_rasa_faq/api_doc:
     - text: "运行： `rasa run --enable-api` 开启全 api 模式
     [文档在这里](https://rasa.com/docs/rasa/pages/http-api)
+    直接使用 案例:
+      查看5005端口是否被占用 netstat -aon | findstr 5005
+      启动Rasa API服务（跨域）rasa run --enable-api --cors \"*\"
+      启动Rasa API服务（保存日志）rasa run --enable-api --log-file out.log
+      启动Rasa API服务（指定模型）rasa run --enable-api -m models
     "
 
   utter_rasa_faq/response_change:
@@ -66,3 +71,5 @@ responses:
 
   utter_rasa_faq/自定义回复:
     - text: "需要自定义一个 `action`, [参考文档](https://rasa.com/docs/rasa/forms#using-a-custom-action-to-ask-for-the-next-slot)  \n 需要注意的是，`action_ask_{form_name}_{slot_name}` 的优先级大于 `action_ask_{form_name}`\n 整体的优先级排序为 `action_ask_{form_name}_{slot_name}` \n `utter_ask_{form_name}_{slot_name}` \n `action_ask_{form_name}` \n `utter_ask_{form_name}`"
+
+
