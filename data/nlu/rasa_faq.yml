@@ -160,6 +160,13 @@ nlu:
       - 你训练咋这么慢啊，大哥，给力点啊。
       - 训练怎么才能gkd啊
 
+  - intent: rasa_faq/conversation和sender的关系
+    examples: |
+      - conversation和sender什么关系啊？
+      - conversation对应几个sender？
+      - 怎么获取sender的tracker
+
+
   - synonym: form
     examples: |
       - 表单
@@ -172,3 +179,14 @@ nlu:
     examples: |
       - 实体
 
+  - synonym: conversation
+    examplse: |
+      - conversation id
+      - conversation_id
+      - conversationid
+
+  - synonym: sender
+    examplse: |
+      - sender id
+      - sender_id
+      - senderid

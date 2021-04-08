@@ -103,3 +103,9 @@ responses:
     - text: "1. 使用gpu, 直接安装 tensorflow-gpu 即可。
     2. 调整 `batch_size`，一般调整 `config.yml` 中的组件的 batch_size，调大一些（注意 gpu 的内存）
     3. 优化训练语料（不建议。。。多一个思考方式"
+
+  utter_rasa_faq/conversation和sender的关系:
+    - text: "
+    conversation id == sender
+    conversation_id 属于比较老的叫法，根据 https://rasa.com/docs/rasa/pages/http-api#operation/getConversationTracker 的返回来看， conversation 字段已经被 sender 替换了。
+    "
