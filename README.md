@@ -2,7 +2,8 @@
 用 `RASA` 实现 `RASA FAQ`。 回答关于 `RASA` 的问题。
 
 欢迎大家多提 `RASA` 相关的问题，我会补充在这里。
-
+#### 功能更新
+[2021-04-13] 实现追问demo。
 
 ## 支持的问题列表
 请参见: [问题列举](./data/nlu/rasa_faq.yml)
@@ -20,8 +21,11 @@ rasa train
 ``` 
 
 ## 运行示例
+普通 `FAQ`:
 ![image.png](https://i.loli.net/2021/01/25/WndRk2ahfeI4i38.png)
 
+追问：
+![image.png](https://i.loli.net/2021/04/13/jr5lsAt728c3XCF.png)
 
 ### 一些文件说明
 ```

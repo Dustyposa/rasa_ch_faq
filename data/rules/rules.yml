@@ -16,3 +16,8 @@ rules:
     steps:
       - intent: rasa_faq
       - action: utter_rasa_faq
+
+  - rule: 查询天气
+    steps:
+      - intent: 查询天气
+      - action: action_query_weather

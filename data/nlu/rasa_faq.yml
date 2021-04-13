@@ -166,7 +166,6 @@ nlu:
       - conversation对应几个sender？
       - 怎么获取sender的tracker
 
-
   - synonym: form
     examples: |
       - 表单
@@ -180,13 +179,13 @@ nlu:
       - 实体
 
   - synonym: conversation
-    examplse: |
+    examples: |
       - conversation id
       - conversation_id
       - conversationid
 
   - synonym: sender
-    examplse: |
+    examples: |
       - sender id
       - sender_id
       - senderid

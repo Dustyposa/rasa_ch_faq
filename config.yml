@@ -33,5 +33,5 @@ policies:
    - name: TEDPolicy
      max_history: 5
      epochs: 100
-   - name: RulePolicy
+   - name: piplines.ask_again_policy.AskAgainRulePolicy
      core_fallback_threshold: 0.5
