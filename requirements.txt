@@ -1,3 +1,5 @@
 rasa==2.2.0
 rasa-sdk==2.2.0
 transformers==4.2.1
+requests==2.25.1
+cpca==0.5.5

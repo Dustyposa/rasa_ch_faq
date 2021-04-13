@@ -16,6 +16,6 @@ PS: 不能保证为最优思路，思路仅供参考。
 
 
 #### 备注
-具体代码实现可以参考 `ask_again_policy.py`，代码优化还未开始。有 `BUG` 欢迎提交 `PR or Issue`。
+具体代码实现可以参考 [`ask_again_policy.py`](./ask_again_policy.py)，代码优化还未开始。有 `BUG` 欢迎提交 `PR or Issue`。
 
 欢迎各位大佬指教。
