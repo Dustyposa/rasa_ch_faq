@@ -109,3 +109,8 @@ responses:
     conversation id == sender
     conversation_id 属于比较老的叫法，根据 https://rasa.com/docs/rasa/pages/http-api#operation/getConversationTracker 的返回来看， conversation 字段已经被 sender 替换了。
     "
+
+  utter_rasa_faq/自定义policy:
+    - text: "config 中自定义一些参数
+    自定义的 Policy 类需要重写 `def _metadata(self)` 方法，里面表示有多少要使用的参数。
+    "

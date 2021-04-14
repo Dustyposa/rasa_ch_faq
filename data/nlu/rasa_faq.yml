@@ -166,6 +166,12 @@ nlu:
       - conversation对应几个sender？
       - 怎么获取sender的tracker
 
+  - intent: rasa_faq/自定义policy
+    examples: |
+      - 自定义policy怎么添加自定义参数
+      - policy的自定义参数怎么没有生效
+      - policy怎么自定义参数
+
   - synonym: form
     examples: |
       - 表单
@@ -189,3 +195,8 @@ nlu:
       - sender id
       - sender_id
       - senderid
+
+  - synonym: policy
+    examplse: |
+      - 自定义policy
+
