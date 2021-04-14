@@ -1,6 +1,8 @@
 # rasa_ch_faq
 用 `RASA` 实现 `RASA FAQ`。 回答关于 `RASA` 的问题。
 
+![](https://img.shields.io/badge/python-3.7%20%7C%20-blue)
+
 欢迎大家多提 `RASA` 相关的问题，我会补充在这里。
 #### 功能更新
 [2021-04-13] 实现追问demo，[实现细节](./piplines/)。
