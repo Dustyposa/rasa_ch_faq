@@ -3,7 +3,8 @@ from typing import List, Optional, Text, Tuple
 
 from rasa.core.policies.rule_policy import RulePolicy, RULES, RULES_FOR_LOOP_UNHAPPY_PATH, DO_NOT_PREDICT_LOOP_ACTION, \
     logger, LOOP_RULES, LOOP_WAS_INTERRUPTED
-from rasa.shared.core.constants import ACTION_LISTEN_NAME
+from rasa.shared.core.constants import ACTION_LISTEN_NAME, PREVIOUS_ACTION, USER
+from rasa.shared.nlu.constants import ACTION_NAME, INTENT, TEXT
 from rasa.shared.core.domain import Domain, State
 from rasa.shared.core.trackers import DialogueStateTracker, get_active_loop_name
 
@@ -15,9 +16,10 @@ class AskAgainRulePolicy(RulePolicy):
         self._need_ask_again_intents = ["查询天气"]
         if self.lookup.get(RULES):
             self.lookup[RULES].update({
-                json.dumps([{"prev_action": {"action_name": "action_listen"}, "user": {"intent": self._ask_again_intent}},
-                            {"prev_action": {"action_name": "action_query_weather"},
-                             "user": {"intent": self._ask_again_intent}}]): 'action_listen'
+                json.dumps(
+                    [{PREVIOUS_ACTION: {ACTION_NAME: ACTION_LISTEN_NAME}, USER: {INTENT: self._ask_again_intent}},
+                     {PREVIOUS_ACTION: {ACTION_NAME: "action_query_weather"},
+                      USER: {INTENT: self._ask_again_intent}}]): ACTION_LISTEN_NAME
             })
 
     def _find_action_from_rules(
@@ -122,22 +124,15 @@ class AskAgainRulePolicy(RulePolicy):
         # if we didn't predict anything from the rules, then the feature key created
         # from states can be used as an indicator that this state will lead to fallback
         return (
-            predicted_action_name or self.get_again_action_from_states(states, tracker),
+            predicted_action_name or self.get_again_action_from_states(states),
             best_rule_key or self._create_feature_key(states),
             returning_from_unhappy_path,
         )
 
-    @staticmethod
-    def get_again_action_from_states(states: List[State], tracker: DialogueStateTracker) -> Optional[Text]:
-        latest_state = states[-1]["user"]
-        if (not latest_state.get("text")) and (latest_state.get("intent", "").startswith("再问")):
-            prev_action_name = states[-2]["prev_action"]["action_name"]
+    def get_again_action_from_states(self, states: List[State]) -> Optional[Text]:
+        latest_state = states[-1][USER]
+        if (not latest_state.get(TEXT)) and (latest_state.get(INTENT, "").startswith(self._ask_again_intent)):
+            prev_action_name = states[-2][PREVIOUS_ACTION][ACTION_NAME]
             if prev_action_name.startswith("action_query"):
-                states.append(
-                    {"user": {"intent": latest_state.get("intent")}, "prev_action": {"action_name": "action_listen"}})
-                states.append(
-                    {"user": {"intent": latest_state.get("intent")}, "prev_action": {"action_name": prev_action_name}})
-                tracker.latest_action = {'action_name': prev_action_name}
                 return prev_action_name
-
         return None
