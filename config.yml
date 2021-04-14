@@ -35,3 +35,7 @@ policies:
      epochs: 100
    - name: piplines.ask_again_policy.AskAgainRulePolicy
      core_fallback_threshold: 0.5
+     ask_again_intent: "再问一次"
+     need_ask_again_intents:
+      - "查询天气"
+

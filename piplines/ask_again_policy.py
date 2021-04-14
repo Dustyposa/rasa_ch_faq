@@ -1,5 +1,5 @@
 import json
-from typing import List, Optional, Text, Tuple
+from typing import List, Optional, Text, Tuple, Dict, Any
 
 from rasa.core.policies.rule_policy import RulePolicy, RULES, RULES_FOR_LOOP_UNHAPPY_PATH, DO_NOT_PREDICT_LOOP_ACTION, \
     logger, LOOP_RULES, LOOP_WAS_INTERRUPTED
@@ -7,14 +7,15 @@ from rasa.shared.core.constants import ACTION_LISTEN_NAME, PREVIOUS_ACTION, USER
 from rasa.shared.nlu.constants import ACTION_NAME, INTENT, TEXT
 from rasa.shared.core.domain import Domain, State
 from rasa.shared.core.trackers import DialogueStateTracker, get_active_loop_name
+from rasa.shared.utils import common
 
 
 class AskAgainRulePolicy(RulePolicy):
-    def __init__(self, **kwargs):
+    def __init__(self, ask_again_intent=None, need_ask_again_intents=None, **kwargs):
         super().__init__(**kwargs)
-        self._ask_again_intent = "再问一次"
-        self._need_ask_again_intents = ["查询天气"]
-        if self.lookup.get(RULES):
+        self._ask_again_intent = ask_again_intent
+        self._need_ask_again_intents = need_ask_again_intents
+        if self.lookup.get(RULES) and self._ask_again_intent and self._need_ask_again_intents:
             self.lookup[RULES].update({
                 json.dumps(
                     [{PREVIOUS_ACTION: {ACTION_NAME: ACTION_LISTEN_NAME}, USER: {INTENT: self._ask_again_intent}},
@@ -136,3 +137,23 @@ class AskAgainRulePolicy(RulePolicy):
             if prev_action_name.startswith("action_query"):
                 return prev_action_name
         return None
+
+    def _metadata(self) -> Dict[Text, Any]:
+
+        return {
+            "priority": self.priority,
+            "lookup": self.lookup,
+            "core_fallback_threshold": self._core_fallback_threshold,
+            "core_fallback_action_name": self._fallback_action_name,
+            "enable_fallback_prediction": self._enable_fallback_prediction,
+            "ask_again_intent": self._ask_again_intent,
+            "need_ask_again_intents": self._need_ask_again_intents
+        }
+
+    @classmethod
+    def _metadata_filename(cls) -> Text:
+        return "ask_again_rule_policy.json"
+
+
+if __name__ == '__main__':
+    print(common.arguments_of(AskAgainRulePolicy.__init__))
