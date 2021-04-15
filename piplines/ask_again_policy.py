@@ -7,21 +7,26 @@ from rasa.shared.core.constants import ACTION_LISTEN_NAME, PREVIOUS_ACTION, USER
 from rasa.shared.nlu.constants import ACTION_NAME, INTENT, TEXT
 from rasa.shared.core.domain import Domain, State
 from rasa.shared.core.trackers import DialogueStateTracker, get_active_loop_name
-from rasa.shared.utils import common
 
 
 class AskAgainRulePolicy(RulePolicy):
-    def __init__(self, ask_again_intent=None, need_ask_again_intents=None, **kwargs):
+    def __init__(
+        self,
+        ask_again_intent=Optional[str],
+        need_ask_again_intents=Optional[List[str]],
+        **kwargs
+    ):
+        """
+
+        :param ask_again_intent: ask again key intent
+        :param need_ask_again_intents: need to ask again intents in rules
+        :param kwargs:
+        """
         super().__init__(**kwargs)
         self._ask_again_intent = ask_again_intent
         self._need_ask_again_intents = need_ask_again_intents
-        if self.lookup.get(RULES) and self._ask_again_intent and self._need_ask_again_intents:
-            self.lookup[RULES].update({
-                json.dumps(
-                    [{PREVIOUS_ACTION: {ACTION_NAME: ACTION_LISTEN_NAME}, USER: {INTENT: self._ask_again_intent}},
-                     {PREVIOUS_ACTION: {ACTION_NAME: "action_query_weather"},
-                      USER: {INTENT: self._ask_again_intent}}]): ACTION_LISTEN_NAME
-            })
+        if self.lookup.get(RULES) and ask_again_intent and need_ask_again_intents:
+            self.update_rules()
 
     def _find_action_from_rules(
             self,
@@ -131,11 +136,25 @@ class AskAgainRulePolicy(RulePolicy):
         )
 
     def get_again_action_from_states(self, states: List[State]) -> Optional[Text]:
-        latest_state = states[-1][USER]
-        if (not latest_state.get(TEXT)) and (latest_state.get(INTENT, "").startswith(self._ask_again_intent)):
-            prev_action_name = states[-2][PREVIOUS_ACTION][ACTION_NAME]
-            if prev_action_name.startswith("action_query"):
-                return prev_action_name
+        latest_user_state = states[-1][USER]
+        if self.states_is_ask_again_intent(latest_user_state):
+            return self.get_latest_ask_again_action(states)
+        return None
+
+    def states_is_ask_again_intent(self, user_state: Dict[str, str]) -> bool:
+        """看 intent 是否是设置的 intent """
+        return (not user_state.get(TEXT)) and (user_state.get(INTENT, "") == self._ask_again_intent)
+
+    def get_latest_ask_again_action(self, states: List[State]) -> Optional[str]:
+        """获取上一次的 action name"""
+        for state in states[-2:0:-2]:
+            intent = state[USER][INTENT]
+            if intent in self._need_ask_again_intents:
+                return state[PREVIOUS_ACTION][ACTION_NAME]
+            elif intent == self._ask_again_intent:
+                continue
+            else:
+                return None
         return None
 
     def _metadata(self) -> Dict[Text, Any]:
@@ -154,6 +173,39 @@ class AskAgainRulePolicy(RulePolicy):
     def _metadata_filename(cls) -> Text:
         return "ask_again_rule_policy.json"
 
+    def update_rules(self) -> None:
+        """根据 指定参数来更新 rules"""
+        tmp_rules = {}
+        for intent in self._need_ask_again_intents:
+            action_name = self.get_action_name_by_intent(intent)
+            tmp_rules[self._get_action_dumps_string_for_rule(action_name)] = ACTION_LISTEN_NAME
+        self.lookup[RULES].update(tmp_rules)
+
+    def get_action_name_by_intent(self, intent: str) -> Optional[str]:
+        return self.lookup[RULES].get(self._generate_dumps_string(intent))
+
+    @staticmethod
+    def _generate_dumps_string(intent: str) -> str:
+        return json.dumps([{PREVIOUS_ACTION: {ACTION_NAME: ACTION_LISTEN_NAME}, USER: {INTENT: intent}}])
+
+    def _get_action_dumps_string_for_rule(self, action_name: str) -> str:
+        return json.dumps(
+            [{PREVIOUS_ACTION: {ACTION_NAME: ACTION_LISTEN_NAME}, USER: {INTENT: self._ask_again_intent}},
+             {PREVIOUS_ACTION: {ACTION_NAME: action_name},
+              USER: {INTENT: self._ask_again_intent}}])
+
 
 if __name__ == '__main__':
-    print(common.arguments_of(AskAgainRulePolicy.__init__))
+    # print(common.arguments_of(AskAgainRulePolicy.__init__))
+    res = {
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"rasa_faq\"}}]": "utter_rasa_faq",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"rasa_faq\"}}, {\"prev_action\": {\"action_name\": \"utter_rasa_faq\"}, \"user\": {\"intent\": \"rasa_faq\"}}]": "action_listen",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u65f6\\u95f4\"}}]": "action_query_time",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u65f6\\u95f4\"}}, {\"prev_action\": {\"action_name\": \"action_query_time\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u65f6\\u95f4\"}}]": "action_listen",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "utter_iamabot",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}, {\"prev_action\": {\"action_name\": \"utter_iamabot\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "action_listen",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]": "utter_goodbye",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]": "action_listen",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u5929\\u6c14\"}}]": "action_query_weather",
+        "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u5929\\u6c14\"}}, {\"prev_action\": {\"action_name\": \"action_query_weather\"}, \"user\": {\"intent\": \"\\u67e5\\u8be2\\u5929\\u6c14\"}}]": "action_listen"
+    }
