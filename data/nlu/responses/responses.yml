@@ -114,3 +114,8 @@ responses:
     - text: "config 中自定义一些参数
     自定义的 Policy 类需要重写 `def _metadata(self)` 方法，里面表示有多少要使用的参数。
     "
+
+  rasa_faq/反复进入story:
+    - text: "配置一下 fallback 规则
+    - name: RulePolicy
+      enable_fallback_prediction: false"

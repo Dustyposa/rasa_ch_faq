@@ -172,6 +172,13 @@ nlu:
       - policy的自定义参数怎么没有生效
       - policy怎么自定义参数
 
+  - intent: rasa_faq/反复进入story
+    examples: |
+      - 怎么反复进入story呢？
+      - 能在同一conversation 中多次触发 story呢？
+      - 为什么每次都要/restart
+      - 能不/restart 就再触发story吗？
+
   - synonym: form
     examples: |
       - 表单
