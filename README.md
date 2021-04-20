@@ -34,6 +34,7 @@ rasa train
 run.py  # 相当于运行 rasa run
 train.py  # == rasa train
 run_action_server.py  # == rasa run actions
+load_model.py   # 直接加载并运行模型，与 server 无关。（需要先训练好一个模型） 
 ```
 ### 一些工具
 ```bash
