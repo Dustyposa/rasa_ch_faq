@@ -179,6 +179,13 @@ nlu:
       - 为什么每次都要/restart
       - 能不/restart 就再触发story吗？
 
+  - intent: rasa_faq/如何部署rasa
+    examples: |
+      - 怎么部署呢？
+      - 怎么部署rasa
+      - 如何部署rasa
+      - 生产上rasa怎么用？
+
   - synonym: form
     examples: |
       - 表单

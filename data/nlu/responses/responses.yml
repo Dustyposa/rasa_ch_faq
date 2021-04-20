@@ -119,3 +119,23 @@ responses:
     - text: "配置一下 fallback 规则
     - name: RulePolicy
       enable_fallback_prediction: false"
+
+  rasa_faq/如何部署rasa:
+    - text: "实际操作需要根据业务的技术架构需求来执行。
+    1. 先说一下最底层的部署方式，那肯定是加载模型，调用模型，产出语句。这个适用于所有的业务架构。
+      - 模型加载，参考源码的 `agent` 加载（后续添加示例）。
+      - 适用模型得到结果。
+      - 模型必须依赖的东西：
+        - tracker
+      - 模型可选依赖:
+        - action server
+        - event broker
+    2. web 部署
+      - 原生 web 部署，`rasa` 本身使用的 `sanic` 异步框架。运行 `rasa run/ rasa run --enable-api` 即可。
+      测试方式:  curl -X POST   'http://localhost:5005/webhooks/rest/webhook'
+               -d '{
+                 \"sender\": \"xxxxx\",
+                                         \"message\": \"你好\"}'
+      - 基于其余 web 框架部署。在 1 方式的基础上，加载模型，套在其余框架上即可。
+    "
+
