@@ -186,6 +186,15 @@ nlu:
       - 如何部署rasa
       - 生产上rasa怎么用？
 
+  - intent: rasa_faq/如何用代码加载模型
+    examples: |
+      - 怎么直接使用模型呢？
+      - 不开服务使用模型可以吗？
+      - 直接使用训练好的模型
+      - 如何直接加载训练好的模型
+      - 加载训练好的模型
+
+
   - synonym: form
     examples: |
       - 表单
@@ -214,3 +223,6 @@ nlu:
     examplse: |
       - 自定义policy
 
+  - synonym: 如何
+    examplse: |
+      - 怎么
