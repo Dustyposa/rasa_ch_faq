@@ -115,12 +115,12 @@ responses:
     自定义的 Policy 类需要重写 `def _metadata(self)` 方法，里面表示有多少要使用的参数。
     "
 
-  rasa_faq/反复进入story:
+  utter_rasa_faq/反复进入story:
     - text: "配置一下 fallback 规则
     - name: RulePolicy
       enable_fallback_prediction: false"
 
-  rasa_faq/如何部署rasa:
+  utter_rasa_faq/如何部署rasa:
     - text: "实际操作需要根据业务的技术架构需求来执行。
     1. 先说一下最底层的部署方式，那肯定是加载模型，调用模型，产出语句。这个适用于所有的业务架构。
       - 模型加载，参考源码的 `agent` 加载（可以参考 `load_model.py` 该文件）。
@@ -139,5 +139,5 @@ responses:
       - 基于其余 web 框架部署。在 1 方式的基础上，加载模型，套在其余框架上即可。
     "
 
-  rasa_faq/如何用代码加载模型:
+  utter_rasa_faq/如何用代码加载模型:
     - text: "可以参考 `load_model.py` 该文件。"
