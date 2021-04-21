@@ -220,9 +220,9 @@ nlu:
       - senderid
 
   - synonym: policy
-    examplse: |
+    examples: |
       - 自定义policy
 
   - synonym: 如何
-    examplse: |
+    examples: |
       - 怎么
