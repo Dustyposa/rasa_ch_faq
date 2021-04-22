@@ -1,17 +1,19 @@
-# rasa_ch_faq
-用 `RASA` 实现 `RASA FAQ`。 回答关于 `RASA` 的问题。
-
 ![](https://img.shields.io/badge/python-3.7%20%7C%20-blue)
+
+
+# rasa_ch_faq
+用 `RASA` 实现 `RASA FAQ`。 回答关于 `RASA` 的问题。以及一些例子。
+
 
 欢迎大家多提 `RASA` 相关的问题，我会补充在这里。
 #### 功能更新
-[2021-04-13] 实现追问demo，[实现细节](./piplines/)。
+[2021-04-13] 实现追问demo，[实现细节](./compoments/polices)。
 
 ## 支持的问题列表
 请参见: [问题列举](./data/nlu/rasa_faq.yml)
 
 ## 一些配置
-分词使用的 `bert`， 自定义了 [`tokenizers`](./piplines/tokenizers.py) 
+分词使用的 `bert`， 自定义了 [`tokenizers`](./compoments/tokenizers/bert_tokenizer..py) 
 
 ## 如何运行
 由于使用了 `bert_chinese`， 所以 需要下载 `bert_chinese` 模型。

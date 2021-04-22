@@ -6,7 +6,7 @@ pipeline:
   # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
   # # If you'd like to customize it, uncomment and adjust the pipeline.
   # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: piplines.tokenizers.CustomBertTokenizer
+  - name: compoments.nlu.tokenizers.bert_tokenizer.CustomBertTokenizer
     cache_dir: ./tmp
     model_weights: pre_models
   - name: LanguageModelFeaturizer
@@ -33,7 +33,7 @@ policies:
    - name: TEDPolicy
      max_history: 5
      epochs: 100
-   - name: piplines.ask_again_policy.AskAgainRulePolicy
+   - name: compoments.polices.ask_again_policy.AskAgainRulePolicy
      core_fallback_threshold: 0.5
      ask_again_intent: "再问一次"
      need_ask_again_intents:
