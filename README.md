@@ -46,3 +46,61 @@ python back_translation.py 需要回译的文本
 ```
 
 #### [我要直接看答案！！！](./data/nlu/responses/responses.yml)
+
+### 从零开始搭建机器人 
+#### 1. 下载项目并进入
+```bash
+git clone https://github.com/Dustyposa/rasa_ch_faq.git 
+cd rasa_ch_faq
+```
+#### 2. 安装依赖
+```bash
+pip install -r requirements.txt
+curl -L https://mirror.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chinese-tf_model.h5 -o pre_models/tf_model.h5
+rasa train
+```
+ps: 注意 `python` 版本 `37+`
+#### 3. 训练模型
+```bash
+rasa train
+```
+#### 4. 运行机器人
+需要开两个 `shell/iterm`
+第一个:
+```bash
+rasa shell
+```
+第二个:
+```bash
+rasa run actions
+```
+然后就可以在第一个 `shell` 窗口对话了
+
+### 从 1 开始搭建机器人
+这个是干啥的?如果第一个你已经会了，我们加点前端展示的，效果康康这里:
+![image.png](https://i.loli.net/2021/04/22/ofyR5w4MW9DGa7U.png)
+
+#### 1. 下载前端项目并进入
+```bash
+git clone --depth 1 https://github.com/Dustyposa/ChatbotWidget.git
+cd ChatbotWidget
+```
+#### 2. 运行 `index.html`
+这个文件:
+![image.png](https://i.loli.net/2021/04/22/uTicLEMs6rvXPnb.png)
+#### 3. 启动 rasa
+同样是两个 `shell/iterm`，第一个命令稍有不同:
+```bash
+rasa run --cors "*"
+```
+第二个:
+```bash
+rasa run actions
+```
+#### 4.开始对话
+点它！开始对话:
+![image.png](https://i.loli.net/2021/04/22/w4omyj8AUTHFLek.png)
+
+
+
+
