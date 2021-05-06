@@ -11,6 +11,8 @@ intents:
   - rasa_faq
   - 查询天气
   - 再问一次
+  - 找饭店
+  - inform
 
 responses:
   utter_greet:
@@ -36,17 +38,96 @@ responses:
   utter_default:
     - text: "不好意思，你这个问题太高深啦。可以在 issue 中提问哦，切换为更智能的 AI！"
 
+  utter_submit:
+    - text: "已经完成！"
+  utter_slots_values:
+    - text: "I am going to run a restaurant search using the following parameters:\n
+               - cuisine: {cuisine}\n
+               - num_people: {num_people}\n
+               - outdoor_seating: {outdoor_seating}\n
+               - preferences: {preferences}\n
+               - feedback: {feedback}"
+  utter_ask_continue:
+    - text: "要继续吗?"
+
+  utter_ask_cuisine:
+    - text: "哪种店?"
+  utter_ask_num_people:
+    - text: "几位呢?"
+  utter_ask_outdoor_seating:
+    - text: "要坐在外面吗?"
+  utter_ask_preferences:
+    - text: "有什么偏好吗？"
+  utter_ask_feedback:
+    - text: "您觉得体验如何？"
 
 slots:
   city:
     type: any
+  cuisine:
+    type: text
+    influence_conversation: false
+    auto_fill: false
+  num_people:
+    type: float
+    influence_conversation: false
+    auto_fill: false
+  outdoor_seating:
+    type: text
+    influence_conversation: false
+    auto_fill: false
+  preferences:
+    type: text
+    influence_conversation: false
+    auto_fill: false
+  feedback:
+    type: text
+    influence_conversation: false
+    auto_fill: false
+  requested_slot:
+    type: text
+    influence_conversation: false
+
 
 entities:
   - city
+  - cuisine
+  - number
+  - feedback
+  - seating
 
+forms:
+  饭店_form:
+    cuisine:
+      - type: from_entity
+        entity: cuisine
+        not_intent: faq
+    num_people:
+      - type: from_entity
+        entity: number
+        intent: [inform, 找饭店]
+    outdoor_seating:
+      - type: from_entity
+        entity: seating
+      - type: from_intent
+        intent: affirm
+        value: true
+      - type: from_intent
+        intent: deny
+        value: false
+    preferences:
+      - type: from_intent
+        intent: deny
+        value: no additional preferences
+      - type: from_text
+        not_intent: affirm
+    feedback:
+      - type: from_entity
+        entity: feedback
+      - type: from_text
 actions:
   - action_query_weather
-
+  - validate_饭店_form
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

@@ -21,3 +21,12 @@ rules:
     steps:
       - intent: 查询天气
       - action: action_query_weather
+
+  - rule: submit form
+    condition:
+    - active_loop: 饭店_form
+    steps:
+      - action: 饭店_form
+      - active_loop: null
+      - action: utter_submit
+      - action: utter_slots_values

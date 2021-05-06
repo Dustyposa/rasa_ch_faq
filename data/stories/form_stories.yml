@@ -1,0 +1,26 @@
+version: "2.0"
+
+stories:
+  - story: stop form + continue
+    steps:
+      - intent: 找饭店
+      - action: 饭店_form
+      - active_loop: 饭店_form
+      - intent: stop
+      - action: utter_ask_continue
+      - intent: affirm
+      - action: 饭店_form
+      - active_loop: null
+      - action: utter_submit
+      - action: utter_slots_values
+
+  - story: stop form + stop
+    steps:
+      - intent: 找饭店
+      - action: 饭店_form
+      - active_loop: 饭店_form
+      - intent: stop
+      - action: utter_ask_continue
+      - intent: deny
+      - action: action_deactivate_loop
+      - active_loop: null

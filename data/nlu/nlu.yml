@@ -139,3 +139,100 @@ nlu:
       - [成都](city)怎样呢？
       - 那[成都](city)如何呢？
       - 那[成都](city)怎样呢？
+
+  - intent: 找饭店
+    examples: |
+      - 我正在寻找一家饭店
+      - 我想找个吃饭的地方
+      - 可以找到[泰餐](cuisine)吗？
+      - 一个提供[日料](cuisine)的地方
+      - 我想找一家餐厅
+      - 我在找一家[烧烤](cuisine)店
+      - 我能找到一家[中餐](cuisine)馆吗
+      - 我需要找一家饭店
+      - 我正在寻找可以吃[自助](cuisine)食物的地方，三个人用
+      - 啊，我在找可以吃[湘菜](cuisine)的地方
+      - 我能找一家餐馆，有[粤菜](cuisine)的那种吗
+      - 找一家[火锅](cuisine)店
+      - 来家餐馆
+      - 帮我找个吃饭的地方
+      - 我想定个双人餐，[西餐](cuisine)那种
+      - 4个人吃饭的地方
+      - 帮我定个[本帮](cuisine)菜饭店，3个人
+      - 能帮我找个5个人吃饭的地方吗
+      - 我想预订个双人餐
+      - 找一家[川菜](cuisine)馆，5个人
+      - 找个7个人吃饭的地方
+      - 有没有4个人适合吃的[麻辣烫](cuisine)店
+
+  - synonym: 饭店
+    examples: |
+      - 吃饭的地方
+      - 餐厅
+      - 餐馆
+
+
+  - intent: stop
+    examples: |
+      - 你不能帮我
+      - 呸，你根本不能帮我
+      - 换人，下一个
+      - 你不能帮我解决问题
+      - 你不行啊
+      - 我知道了，你不行啊
+      - 不是我要的
+      - 我知道了，但是没用
+      - 不行，完全没用
+      - 真的没用啊
+      - 你在说啥，换一个
+      - 我觉得你不能帮我
+      - 退出去
+      - 停
+      - 重来
+      - 你在说啥哦
+      - 你怕是在开玩笑
+      - 那是啥
+      - 还有啥
+
+  - regex: number
+    examples: |
+      - \d+
+
+  - intent: inform
+    examples: |
+      - [西餐](cuisine)厅
+      - [中餐](cuisine)馆
+      - [泰餐](cuisine)吧
+      - [火锅](cuisine)店
+      - [串串](cuisine)香
+      - [川菜](cuisine)馆
+      - [粤菜](cuisine)吧
+      - [本帮](cuisine)菜
+      - [麻辣烫](cuisine)
+      - [湘菜](cuisine)吧
+      - [自助](cuisine)餐
+      - [烧烤](cuisine)店
+      - [日料](cuisine)店
+      - 想吃[火锅](cuisine)
+      - 吃[串串](cuisine)吧
+      - 还是[日料](cuisine)吧
+      - 找一家[日料](cuisine)店如何
+      - [外面](seating)
+      - [里面](seating)
+      - [里面](seating)好一点
+      - 我想坐[里面](seating)
+      - 还是坐[外面](seating)吧
+      - 还是[外面](seating)吧
+      - [2](number)个人
+      - [12](number)个
+      - [3](number)
+      - 我觉得还[不错](feedback)
+      - [还行](feedback)吧
+      - [不行](feedback)
+
+
+
+
+
+
+
