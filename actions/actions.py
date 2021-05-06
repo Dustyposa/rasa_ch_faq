@@ -15,7 +15,7 @@ from rasa_sdk.executor import CollectingDispatcher
 import cpca
 import requests
 
-QUERY_KEY = "#需要获得自己的key。。。看一下官方文档即可。"
+QUERY_KEY = ""
 
 CITY_LOOKUP_URL = "https://geoapi.qweather.com/v2/city/lookup"
 WEATHER_URL = "https://devapi.qweather.com/v7/weather/now"
@@ -38,6 +38,8 @@ class ActionQueryWeather(Action):
 
     @staticmethod
     def get_location_id(city):
+        if not QUERY_KEY:
+            raise ValueError("需要获得自己的key。。。看一下官方文档即可。 参考地址: qweather.com")
         params = {"location": city, "key": QUERY_KEY}
         return requests.get(CITY_LOOKUP_URL, params=params).json()["location"][0]["id"]
         # return 124
