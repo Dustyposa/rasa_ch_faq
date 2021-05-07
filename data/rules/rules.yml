@@ -37,3 +37,8 @@ rules:
       - action: utter_submit
       - action: utter_slots_values
       - action: action_clear_饭店_form_slots
+
+  - rule: 看图片
+    steps:
+      - intent: 看图片
+      - action: action_find_img

@@ -155,6 +155,7 @@ class ValidateRestaurantForm(FormValidationAction):
 
 class ClearRestaurantFormSlot(Action):
     """清除掉上次收集的 slots"""
+
     def name(self) -> Text:
         return "action_clear_饭店_form_slots"
 
@@ -164,6 +165,23 @@ class ClearRestaurantFormSlot(Action):
         clear_slots = domain.get("forms", {}).get('饭店_form', {}).keys()
         slots_data = domain.get("slots")
         return [SlotSet(slot_name, slots_data.get(slot_name)['initial_value']) for slot_name in clear_slots]
+
+
+class ActionFindImg(Action):
+    SUPPORT_IMAGE_TYPE = {
+        "猫": lambda: requests.get("https://aws.random.cat/meow").json()["file"],
+    }
+
+    def name(self) -> Text:
+        return "action_find_img"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        img_name = next(tracker.get_latest_entity_values("look_img"), None)
+        if img_name in self.SUPPORT_IMAGE_TYPE.keys():
+            dispatcher.utter_message(image=self.SUPPORT_IMAGE_TYPE[img_name]())
+        return []
 
 
 if __name__ == '__main__':

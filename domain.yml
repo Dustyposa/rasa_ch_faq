@@ -102,6 +102,7 @@ entities:
   - number
   - feedback
   - seating
+  - look_img
 
 forms:
   饭店_form:
@@ -136,6 +137,7 @@ actions:
   - action_query_weather
   - validate_饭店_form
   - action_clear_饭店_form_slots
+  - action_find_img
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

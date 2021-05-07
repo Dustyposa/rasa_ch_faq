@@ -231,6 +231,18 @@ nlu:
       - [还行](feedback)吧
       - [不行](feedback)
 
+  - intent: 看图片
+    examples: |
+      - 看看[猫](look_img)
+      - 看看[狗](look_img)
+      - 看看[狐狸](look_img)
+      - 吸[猫](look_img)
+      - 今日份吸[猫](look_img)
+      - 想吸[猫](look_img)了
+      - 今天的[狗](look_img)
+      - 来一张[猫](look_img)看看
+
+
 
 
 
