@@ -45,7 +45,7 @@ responses:
     - text: "我将使用以下参数运行一个餐厅搜索:\n
                - 餐厅类别: {cuisine}\n
                - 人数: {num_people}\n
-               - 座位位置: {outdoor_seating}\n
+               - 坐外面: {outdoor_seating}\n
                - 偏好: {preferences}\n
                - 反馈: {feedback}"
   utter_ask_continue:
@@ -135,6 +135,7 @@ forms:
 actions:
   - action_query_weather
   - validate_饭店_form
+  - action_clear_饭店_form_slots
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

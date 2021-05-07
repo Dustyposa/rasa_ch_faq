@@ -10,6 +10,7 @@ import random
 from typing import Any, Text, Dict, List
 #
 from rasa_sdk import Action, Tracker, FormValidationAction
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 import cpca
@@ -26,9 +27,9 @@ class ActionQueryWeather(Action):
     def name(self) -> Text:
         return "action_query_weather"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         user_in = tracker.latest_message.get("text")
         province, city = cpca.transform([user_in]).loc[0, ["省", "市"]]
         city = province if city in ["市辖区", None] else city
@@ -59,14 +60,14 @@ class ActionQueryWeather(Action):
 
 
 class ValidateRestaurantForm(FormValidationAction):
-    """Example of a form validation action."""
+    """validation action 示例"""
 
     def name(self) -> Text:
         return "validate_饭店_form"
 
     @staticmethod
     def cuisine_db() -> List[Text]:
-        """Database of supported cuisines."""
+        """数据库支持的餐种 cuisines."""
 
         return [
             "西餐",
@@ -84,7 +85,7 @@ class ValidateRestaurantForm(FormValidationAction):
 
     @staticmethod
     def is_int(string: Text) -> bool:
-        """Check if a string is an integer."""
+        """检查 string 是一个 integer."""
 
         try:
             int(string)
@@ -99,7 +100,7 @@ class ValidateRestaurantForm(FormValidationAction):
             tracker: Tracker,
             domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validate cuisine value."""
+        """检查 cuisine 值"""
         print(f"slots: {tracker.current_slot_values()}, value: {value}")
         if value.lower() in self.cuisine_db():
             # validation succeeded, set the value of the "cuisine" slot to value
@@ -117,7 +118,7 @@ class ValidateRestaurantForm(FormValidationAction):
             tracker: Tracker,
             domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validate num_people value."""
+        """检查 num_people 值"""
         value = next(tracker.get_latest_entity_values("number"), None)
         if self.is_int(value) and int(value) > 0:
             return {"num_people": value}
@@ -133,7 +134,7 @@ class ValidateRestaurantForm(FormValidationAction):
             tracker: Tracker,
             domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validate outdoor_seating value."""
+        """检查 outdoor_seating 值"""
 
         if isinstance(value, str):
             if "外面" in value:
@@ -150,6 +151,19 @@ class ValidateRestaurantForm(FormValidationAction):
         else:
             # affirm/deny was picked up as True/False by the from_intent mapping
             return {"outdoor_seating": value}
+
+
+class ClearRestaurantFormSlot(Action):
+    """清除掉上次收集的 slots"""
+    def name(self) -> Text:
+        return "action_clear_饭店_form_slots"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        clear_slots = domain.get("forms", {}).get('饭店_form', {}).keys()
+        slots_data = domain.get("slots")
+        return [SlotSet(slot_name, slots_data.get(slot_name)['initial_value']) for slot_name in clear_slots]
 
 
 if __name__ == '__main__':
