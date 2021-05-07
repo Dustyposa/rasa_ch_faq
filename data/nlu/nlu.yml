@@ -226,6 +226,7 @@ nlu:
       - [2](number)个人
       - [12](number)个
       - [3](number)
+      - [4](number)位
       - 我觉得还[不错](feedback)
       - [还行](feedback)吧
       - [不行](feedback)
