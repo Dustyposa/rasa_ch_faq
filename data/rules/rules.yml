@@ -42,3 +42,17 @@ rules:
     steps:
       - intent: 看图片
       - action: action_find_img
+
+  - rule: 激活搜动漫
+    steps:
+      - intent: 搜动漫
+      - action: 搜动漫_form
+      - active_loop: 搜动漫_form
+
+  - rule: 提交搜动漫
+    condition:
+      - active_loop: 搜动漫_form
+    steps:
+      - action: 搜动漫_form
+      - active_loop: null
+      - action: action_search_anime_img

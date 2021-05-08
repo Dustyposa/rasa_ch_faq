@@ -14,6 +14,8 @@ intents:
   - 找饭店
   - inform
   - stop
+  - 搜动漫
+  - 看图片
 
 responses:
   utter_greet:
@@ -61,12 +63,16 @@ responses:
     - text: "有什么偏好吗？"
   utter_ask_feedback:
     - text: "您觉得体验如何？"
+  utter_ask_搜动漫_form_img:
+    - text: "请输入图片地址/url"
   utter_wrong_cuisine:
     - text: "店铺类型不在数据库中，请换一种餐种"
   utter_wrong_num_people:
     - text: "人数应该是一个正整数，请再试一次"
   utter_wrong_outdoor_seating:
     - text: "无法将输入值转换为布尔值，请重试"
+  utter_url错误:
+    - text: "url有误，请检查后再重试～"
 
 slots:
   city:
@@ -94,7 +100,10 @@ slots:
   requested_slot:
     type: text
     influence_conversation: false
-
+  img:
+    type: text
+    influence_conversation: false
+    auto_fill: false
 
 entities:
   - city
@@ -133,11 +142,17 @@ forms:
       - type: from_entity
         entity: feedback
       - type: from_text
+
+  搜动漫_form:
+    img:
+      - type: from_text
 actions:
   - action_query_weather
   - validate_饭店_form
+  - validate_搜动漫_form
   - action_clear_饭店_form_slots
   - action_find_img
+  - action_search_anime_img
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
