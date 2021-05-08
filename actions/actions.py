@@ -170,6 +170,8 @@ class ClearRestaurantFormSlot(Action):
 class ActionFindImg(Action):
     SUPPORT_IMAGE_TYPE = {
         "猫": lambda: requests.get("https://aws.random.cat/meow").json()["file"],
+        "狐狸": lambda: requests.get("https://randomfox.ca/floof/").json()["image"],
+        "狗": lambda: requests.get("https://dog.ceo/api/breeds/image/random").json()["message"]
     }
 
     def name(self) -> Text:
@@ -181,6 +183,8 @@ class ActionFindImg(Action):
         img_name = next(tracker.get_latest_entity_values("look_img"), None)
         if img_name in self.SUPPORT_IMAGE_TYPE.keys():
             dispatcher.utter_message(image=self.SUPPORT_IMAGE_TYPE[img_name]())
+        else:
+            dispatcher.utter_message(text="不好意思，暂时不能吸该动物呢～～")
         return []
 
 
