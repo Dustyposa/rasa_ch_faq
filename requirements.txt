@@ -5,3 +5,5 @@ requests==2.25.1
 cpca==0.5.5
 validators==0.18.2
 aiohttp==3.6.3
+matplotlib==3.3.3
+pytz==2020.4

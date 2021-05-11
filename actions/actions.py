@@ -16,6 +16,7 @@ from rasa_sdk.executor import CollectingDispatcher
 import cpca
 import validators
 
+from actions.utils.coins import CoinDataManager
 from actions.utils.request import get
 from actions.utils.search import search_anime, AnimalImgSearch
 
@@ -224,6 +225,18 @@ class SearchAnime(Action):
         print(f"cs: {clear_slots}")
         print(f"sd: {slots_data}")
         return [SlotSet(slot_name, slots_data.get(slot_name)['initial_value']) for slot_name in clear_slots]
+
+
+class CoinSearchAction(Action):
+    def name(self) -> Text:
+        return "action_search_coin_history"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        img_msg = await CoinDataManager().get_img()
+        dispatcher.utter_message(image=img_msg)
+        return []
 
 
 if __name__ == '__main__':

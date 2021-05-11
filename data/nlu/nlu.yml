@@ -253,6 +253,16 @@ nlu:
       - 搜动漫来自哪里
       - 查动漫
 
+  - intent: 查币
+    examples: |
+      - [BTC](coin_name)价格
+      - [BTC](coin_name)趋势
+      - [BTC](coin_name)分时图
+      - 帮我看一下[BTC](coin_name)趋势
+
+  - synonym: BTC
+    examples: |
+      - 比特币
 
 
 

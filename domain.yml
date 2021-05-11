@@ -16,6 +16,7 @@ intents:
   - stop
   - 搜动漫
   - 看图片
+  - 查币
 
 responses:
   utter_greet:
@@ -112,6 +113,7 @@ entities:
   - feedback
   - seating
   - look_img
+  - coin_name
 
 forms:
   饭店_form:
@@ -153,6 +155,8 @@ actions:
   - action_clear_饭店_form_slots
   - action_find_img
   - action_search_anime_img
+  - action_search_coin_history
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

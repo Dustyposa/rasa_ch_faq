@@ -56,3 +56,8 @@ rules:
       - action: 搜动漫_form
       - active_loop: null
       - action: action_search_anime_img
+
+  - rule: 查币
+    steps:
+      - intent: 查币
+      - action: action_search_coin_history
