@@ -6,6 +6,7 @@
 
 
 # This is a simple example for a custom action which utters "Hello World!"
+import mimetypes
 import random
 from typing import Any, Text, Dict, List
 
@@ -205,9 +206,16 @@ class SearchAnimeValidateForm(FormValidationAction):
             domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         if validators.url(value):
-            return {"img": value}
+            return {"img": f"u_{value}"}
+        elif self.is_url_image(value):
+            return {"img": f"f_{value}"}
         dispatcher.utter_message(template="utter_url错误")
         return {"img": None}
+
+    @staticmethod
+    def is_url_image(url: str) -> bool:
+        mimetype, encoding = mimetypes.guess_type(url)
+        return mimetype is not None and mimetype.startswith('image')
 
 
 class SearchAnime(Action):

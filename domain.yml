@@ -65,7 +65,7 @@ responses:
   utter_ask_feedback:
     - text: "您觉得体验如何？"
   utter_ask_搜动漫_form_img:
-    - text: "请输入图片地址/url"
+    - text: "请输入图片url或者直接上传图片"
   utter_wrong_cuisine:
     - text: "店铺类型不在数据库中，请换一种餐种"
   utter_wrong_num_people:

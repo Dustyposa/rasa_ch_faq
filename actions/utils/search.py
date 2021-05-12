@@ -1,13 +1,17 @@
 from typing import Text
 
-from actions.utils.request import get
+from actions.utils.request import get, post
 
 SEARCH_ANIME_URL = "https://trace.moe/api/search"
 
 
 async def search_anime(url: Text) -> Text:
     try:
-        res = await get(url=SEARCH_ANIME_URL, params={"url": url})
+        url_type, url_data = url.split("_", maxsplit=1)
+        if url_type == "u":
+            res = await get(url=SEARCH_ANIME_URL, params={"url": url})
+        else:
+            res = await post(url=SEARCH_ANIME_URL, data={"image": url_data})
     except UnicodeDecodeError:
         return "搜索出错，请稍后再试"
     animes = res["docs"]
