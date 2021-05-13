@@ -1,17 +1,26 @@
 ![](https://img.shields.io/badge/python-3.7%20%7C%20-blue)
 
 
-# rasa_ch_faq
-用 `RASA` 实现 `RASA FAQ`。 回答关于 `RASA` 的问题。以及一些例子。
-
-
-欢迎大家多提 `RASA` 相关的问题，我会补充在这里。
+# rasa_ch_bot
+用 `RASA` 实现 `RASA Bot` 后端。 能够回答关于 `RASA` 的问题，以及一些例子。
+欢迎大家多提 `RASA` 相关的问题，或者想看的示例，我会补充在这里。
+>  前端地址: [这里](https://github.com/Dustyposa/rasa_bot_front)
 #### 功能更新
 - [2021-05-13] 增加按钮 demo
 - [2021-05-11] 支持查看 `BTC` 行情
 - [2021-05-08] 支持 `吸猫\狗\狐狸`。支持 根据图片搜索动漫出处。  
 - [2021-05-06] 支持 `找饭店` demo。  
 - [2021-04-13] 实现追问demo，[实现细节](./compoments/polices)。  
+### 部分功能展示
+#### FAQ
+![faq.gif](https://i.loli.net/2021/05/13/mvXH7z65fPZQFGO.gif)
+#### 天气查询及BTC查询功能
+![查询.gif](https://i.loli.net/2021/05/13/ENvxChtPsWIy32L.gif)
+#### 吸动物
+![吸动物.gif](https://i.loli.net/2021/05/13/ObsEnwut89fAXUj.gif)
+#### 搜动漫
+![搜动漫.gif](https://i.loli.net/2021/05/13/13N4QCUPo5rzHyh.gif)
+
 
 ## 支持的问题列表
 请参见: [问题列举](./data/nlu/rasa_faq.yml)
@@ -28,12 +37,6 @@ curl -L https://mirror.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chines
 rasa train
 ``` 
 
-## 运行示例
-普通 `FAQ`:
-![image.png](https://i.loli.net/2021/01/25/WndRk2ahfeI4i38.png)
-
-追问：
-![image.png](https://i.loli.net/2021/04/13/jr5lsAt728c3XCF.png)
 
 ### 一些文件说明
 ```
@@ -81,17 +84,16 @@ rasa run actions
 然后就可以在第一个 `shell` 窗口对话了
 
 ### 从 1 开始搭建机器人
-这个是干啥的?如果第一个你已经会了，我们加点前端展示的，效果康康这里:
-![image.png](https://i.loli.net/2021/04/22/ofyR5w4MW9DGa7U.png)
+这个是干啥的?如果第一个你已经会了，我们加点前端展示的，效果参看[这里](#部分功能展示)
+
 
 #### 1. 下载前端项目并进入
 ```bash
-git clone --depth 1 https://github.com/Dustyposa/ChatbotWidget.git
-cd ChatbotWidget
+git clone -#-depth 1 https://github.com/Dustyposa/rasa_bot_front
+cd rasa_bot_front
 ```
-#### 2. 运行 `index.html`
-这个文件:
-![image.png](https://i.loli.net/2021/04/22/uTicLEMs6rvXPnb.png)
+#### 2. 启动前端
+参照[文档](https://github.com/Dustyposa/rasa_bot_front)
 #### 3. 启动 rasa
 同样是两个 `shell/iterm`，第一个命令稍有不同:
 ```bash
@@ -101,9 +103,7 @@ rasa run --cors "*"
 ```bash
 rasa run actions
 ```
-#### 4.开始对话
-点它！开始对话:
-![image.png](https://i.loli.net/2021/04/22/w4omyj8AUTHFLek.png)
+
 
 
 

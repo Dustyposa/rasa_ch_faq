@@ -9,7 +9,7 @@ async def search_anime(url: Text) -> Text:
     try:
         url_type, url_data = url.split("_", maxsplit=1)
         if url_type == "u":
-            res = await get(url=SEARCH_ANIME_URL, params={"url": url})
+            res = await get(url=SEARCH_ANIME_URL, params={"url": url_data})
         else:
             res = await post(url=SEARCH_ANIME_URL, data={"image": url_data})
     except UnicodeDecodeError:
