@@ -136,7 +136,7 @@ class AskAgainRulePolicy(RulePolicy):
         )
 
     def get_again_action_from_states(self, states: List[State]) -> Optional[Text]:
-        latest_user_state = states[-1][USER]
+        latest_user_state = states[-1].get(USER, {})
         if self.states_is_ask_again_intent(latest_user_state):
             return self.get_latest_ask_again_action(states)
         return None
