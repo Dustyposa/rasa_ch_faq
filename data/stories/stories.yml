@@ -28,3 +28,17 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: 尝试按钮1
+  steps:
+    - intent: 试试按钮
+    - action: utter_试试按钮
+    - intent: 看图片
+    - action: action_find_img
+
+- story: 尝试按钮2
+  steps:
+    - intent: 试试按钮
+    - action: utter_试试按钮
+    - intent: bot_challenge
+    - action: utter_iamabot

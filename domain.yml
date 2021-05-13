@@ -17,6 +17,7 @@ intents:
   - 搜动漫
   - 看图片
   - 查币
+  - 试试按钮
 
 responses:
   utter_greet:
@@ -74,6 +75,13 @@ responses:
     - text: "无法将输入值转换为布尔值，请重试"
   utter_url错误:
     - text: "url有误，请检查后再重试～"
+  utter_试试按钮:
+    - text: "这个按钮有两个功能，你可以试试："
+      buttons:
+        - title: "吸猫"
+          payload: '/看图片{{"look_img":"猫"}}'
+        - title: "你是不是bot"
+          payload: "/bot_challenge"
 
 slots:
   city:
