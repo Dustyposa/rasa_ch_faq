@@ -13,13 +13,13 @@
 - [2021-04-13] 实现追问demo，[实现细节](./compoments/polices)。  
 ### 部分功能展示
 #### FAQ
-[![grtKwF.md.gif](https://z3.ax1x.com/2021/05/14/grtKwF.md.gif)](https://imgtu.com/i/grtKwF)
+[![grtKwF.gif](https://z3.ax1x.com/2021/05/14/grtKwF.gif)](https://imgtu.com/i/grtKwF)
 #### 天气查询及BTC查询功能
-[![grtGS1.md.gif](https://z3.ax1x.com/2021/05/14/grtGS1.md.gif)](https://imgtu.com/i/grtGS1)
+[![grtGS1.gif](https://z3.ax1x.com/2021/05/14/grtGS1.gif)](https://imgtu.com/i/grtGS1)
 #### 吸动物
-[![grt2m8.md.gif](https://z3.ax1x.com/2021/05/14/grt2m8.md.gif)](https://imgtu.com/i/grt2m8)
+[![grt2m8.gif](https://z3.ax1x.com/2021/05/14/grt2m8.gif)](https://imgtu.com/i/grt2m8)
 #### 搜动漫
-[![grtUeO.md.gif](https://z3.ax1x.com/2021/05/14/grtUeO.md.gif)](https://imgtu.com/i/grtUeO)
+[![grtUeO.gif](https://z3.ax1x.com/2021/05/14/grtUeO.gif)](https://imgtu.com/i/grtUeO)
 
 
 ## 支持的问题列表
