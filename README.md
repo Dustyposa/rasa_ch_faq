@@ -13,20 +13,20 @@
 - [2021-04-13] 实现追问demo，[实现细节](./compoments/polices)。  
 ### 部分功能展示
 #### FAQ
-![faq.gif](https://i.loli.net/2021/05/13/mvXH7z65fPZQFGO.gif)
+[![grtKwF.md.gif](https://z3.ax1x.com/2021/05/14/grtKwF.md.gif)](https://imgtu.com/i/grtKwF)
 #### 天气查询及BTC查询功能
-![查询.gif](https://i.loli.net/2021/05/13/ENvxChtPsWIy32L.gif)
+[![grtGS1.md.gif](https://z3.ax1x.com/2021/05/14/grtGS1.md.gif)](https://imgtu.com/i/grtGS1)
 #### 吸动物
-![吸动物.gif](https://i.loli.net/2021/05/13/ObsEnwut89fAXUj.gif)
+[![grt2m8.md.gif](https://z3.ax1x.com/2021/05/14/grt2m8.md.gif)](https://imgtu.com/i/grt2m8)
 #### 搜动漫
-![搜动漫.gif](https://i.loli.net/2021/05/13/13N4QCUPo5rzHyh.gif)
+[![grtUeO.md.gif](https://z3.ax1x.com/2021/05/14/grtUeO.md.gif)](https://imgtu.com/i/grtUeO)
 
 
 ## 支持的问题列表
 请参见: [问题列举](./data/nlu/rasa_faq.yml)
 
 ## 一些配置
-分词使用的 `bert`， 自定义了 [`tokenizers`](./compoments/tokenizers/bert_tokenizer..py) 
+分词使用的 `bert`， 自定义了 [`tokenizers`](./compoments/nlu/tokenizers/bert_tokenizer.py) 
 
 ## 如何运行
 由于使用了 `bert_chinese`， 所以 需要下载 `bert_chinese` 模型。
