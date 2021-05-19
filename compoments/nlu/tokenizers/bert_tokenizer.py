@@ -6,6 +6,10 @@ from rasa.nlu.tokenizers.tokenizer import Tokenizer, Token
 
 
 class CustomBertTokenizer(Tokenizer):
+    defaults = {
+        "model_weights": "pre_models",
+        "cache_dir": "./tmp"
+    }
 
     def __init__(self, component_config: Dict[Text, Any] = None) -> None:
         super(CustomBertTokenizer, self).__init__(component_config)
@@ -20,4 +24,3 @@ class CustomBertTokenizer(Tokenizer):
 
         return [Token(text=token_text, start=position[0], end=position[1])
                 for token_text, position in token_position_pair]
-
