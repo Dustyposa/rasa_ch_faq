@@ -6,13 +6,12 @@ pipeline:
   # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
   # # If you'd like to customize it, uncomment and adjust the pipeline.
   # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: compoments.nlu.tokenizers.bert_tokenizer.CustomBertTokenizer
+  - name: compoments.nlu.tokenizers.albert_tokenizer.CustomAlbertTokenizer
     cache_dir: ./tmp
-    model_weights: pre_models
-  - name: LanguageModelFeaturizer
+    model_weights: pre_models/albert
+  - name: compoments.nlu.featurizer.albert.AlbertFeaturizer
     cache_dir: ./tmp
-    model_name: bert
-    model_weights: pre_models
+    model_weights: pre_models/albert
   - name: DIETClassifier
     epochs: 100
   - name: RegexEntityExtractor
