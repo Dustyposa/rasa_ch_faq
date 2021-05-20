@@ -1,9 +1,14 @@
 from rasa.nlu.featurizers.dense_featurizer.lm_featurizer import LanguageModelFeaturizer
 from rasa_sdk import logger
-from transformers import BertTokenizer, TFAlbertModel, AlbertModel
+from transformers import BertTokenizer, TFAlbertModel
 
 
 class AlbertFeaturizer(LanguageModelFeaturizer):
+    """
+    模型下载参考地址:
+    https://huggingface.co/voidful/albert_chinese_large/tree/main
+    """
+
     def _load_model_instance(self, skip_model_load: bool) -> None:
         """Try loading the model instance.
 
