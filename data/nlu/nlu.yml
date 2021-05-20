@@ -116,35 +116,35 @@ nlu:
       - are you a human?
       - am I talking to a bot?
       - am I talking to a human?
-      - 你是机器人吗？
-      - 我在和机器人说话？
-      - 我去，你是机器人？
-      - 你是真人吗？
-      - 真人？
+      - 你是机器人吗
+      - 我在和机器人说话
+      - 我去，你是机器人
+      - 你是真人吗
+      - 真人
 
   - intent: 查询天气
     examples: |
-      - [成都]{"entity": "city"}天气如何？
-      - [成都]{"entity": "city"}的天气怎样？
+      - [成都]{"entity": "city"}天气如何
+      - [成都]{"entity": "city"}的天气怎样
       - 帮我查一下[成都]{"entity": "city"}的天气
       - 查一下[成都]{"entity": "city"}的天气
-      - [成都]{"entity": "city"}今天冷不冷？
-      - [成都]{"entity": "city"}今天热不热？
+      - [成都]{"entity": "city"}今天冷不冷
+      - [成都]{"entity": "city"}今天热不热
 
   - intent: 再问一次
     examples: |
-      - [成都](city)呢?
-      - 那[成都](city)呢?
-      - [成都](city)如何呢？
-      - [成都](city)怎样呢？
-      - 那[成都](city)如何呢？
-      - 那[成都](city)怎样呢？
+      - [成都](city)呢
+      - 那[成都](city)呢
+      - [成都](city)如何呢
+      - [成都](city)怎样呢
+      - 那[成都](city)如何呢
+      - 那[成都](city)怎样呢
 
   - intent: 找饭店
     examples: |
       - 我正在寻找一家饭店
       - 我想找个吃饭的地方
-      - 可以找到[泰餐](cuisine)吗？
+      - 可以找到[泰餐](cuisine)吗
       - 一个提供[日料](cuisine)的地方
       - 我想找一家餐厅
       - 我在找一家[烧烤](cuisine)店
