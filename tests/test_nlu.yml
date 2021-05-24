@@ -1,0 +1,8 @@
+#### This file contains tests to evaluate that your bot behaves as expected.
+#### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
+
+nlu:
+- intent: bot_challenge
+  examples: |
+    - 机器人？
+    - 这是机器人做的？
