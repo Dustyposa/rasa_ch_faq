@@ -13,3 +13,15 @@ stories:
       很完美
   - intent: mood_great
   - action: utter_happy
+
+- story: 问饭店
+  steps:
+    - user: |
+        我想吃饭
+      intent: 找饭店
+    - action: 饭店_form
+    - active_loop: 饭店_form
+    - active_loop: null
+    - action: utter_submit
+    - action: utter_slots_values
+    - action: action_clear_饭店_form_slots
