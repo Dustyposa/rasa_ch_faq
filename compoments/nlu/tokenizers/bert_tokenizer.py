@@ -21,6 +21,11 @@ class CustomBertTokenizer(Tokenizer):
         text = message.get(attribute)
         encoded_input = self.tokenizer(text, return_offsets_mapping=True, add_special_tokens=False)
         token_position_pair = zip(encoded_input.tokens(), encoded_input["offset_mapping"])
-
+        print(f"text: {text} !!!")
         return [Token(text=token_text, start=position[0], end=position[1])
                 for token_text, position in token_position_pair]
+
+
+if __name__ == '__main__':
+    [print(x.text) for x in CustomBertTokenizer().tokenize({"text": "BTC"}, "text")]
+    [print(x.text) for x in CustomBertTokenizer().tokenize({"text": "btc"}, "text")]
