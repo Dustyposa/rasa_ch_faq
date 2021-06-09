@@ -26,5 +26,5 @@ class CustomBertTokenizer(Tokenizer):
 
 
 if __name__ == '__main__':
-    [print(x.text) for x in CustomBertTokenizer().tokenize({"text": "BTC"}, "text")]
-    [print(x.text) for x in CustomBertTokenizer().tokenize({"text": "btc"}, "text")]
+    [print(x.draw_text) for x in CustomBertTokenizer().tokenize({"text": "BTC"}, "text")]
+    [print(x.draw_text) for x in CustomBertTokenizer().tokenize({"text": "btc"}, "text")]
