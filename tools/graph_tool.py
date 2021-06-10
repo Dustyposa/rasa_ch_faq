@@ -25,27 +25,15 @@ class Neo4JKnowledgeBase(KnowledgeBase):
     async def get_objects(
             self, object_type: Text, attributes: List[Dict[Text, Text]], limit: int = 5
     ) -> List[Dict[Text, Any]]:
-        # if object_type not in self.data:
-        #     return []
-        #
-        # objects = self.data[object_type]
-        #
-        # # filter objects by attributes
-        # if attributes:
-        #     objects = list(
-        #         filter(
-        #             lambda obj: [
-        #                             obj[a["name"]] == a["value"] for a in attributes
-        #                         ].count(False)
-        #                         == 0,
-        #             objects,
-        #         )
-        #     )
-        #
-        # random.shuffle(objects)
-        #
-        # return objects[:limit]
-        ...
+        if object_type not in self.data:
+            return []
+        # filter objects by attributes
+        cypher = "MATCH p: {0}\n"
+
+        if attributes:
+            cypher += "WHERE " + "AND".join([f"p.{a['name']}=={a['value']}" for a in attributes]) + "\n"
+        cypher += f"RETURN p LIMIT {limit}"
+        return self.run_graph(cypher).to_series().to_list()
 
     def get_attributes_of_object(self, object_type: Text) -> List[Text]:
         """
