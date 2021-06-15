@@ -4,7 +4,7 @@ COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
-ENTRYPOINT rasa
+ENTRYPOINT ["rasa"]
 CMD ["run", "--cors", "*"]
 
 
