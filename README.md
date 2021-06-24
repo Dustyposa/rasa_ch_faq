@@ -6,6 +6,7 @@
 欢迎大家多提 `RASA` 相关的问题，或者想看的示例，我会补充在这里。
 >  前端地址: [这里](https://github.com/Dustyposa/rasa_bot_front)
 #### 功能更新
+- [2021-06-24] 增加知图谱的接入(放在[GRAPH](https://github.com/Dustyposa/rasa_ch_faq/tree/GRAPH)分支了)
 - [2021-06-01] 增加`文本纠错 pipeline` (由于 `demo` 较慢，默认未开启，如何[开启](./compoments/nlu/helpers#文本纠错)？) 
 - [2021-05-13] 增加按钮 demo
 - [2021-05-11] 支持查看 `BTC` 行情
@@ -21,7 +22,8 @@
 [![grt2m8.gif](https://z3.ax1x.com/2021/05/14/grt2m8.gif)](https://imgtu.com/i/grt2m8)
 #### 搜动漫
 [![grtUeO.gif](https://z3.ax1x.com/2021/05/14/grtUeO.gif)](https://imgtu.com/i/grtUeO)
-
+#### 知识图谱
+[![RQE8gA.gif](https://z3.ax1x.com/2021/06/24/RQE8gA.gif)](https://imgtu.com/i/RQE8gA)
 
 ## 支持的问题列表
 请参见: [问题列举](./data/nlu/rasa_faq.yml)
