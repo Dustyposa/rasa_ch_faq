@@ -14,9 +14,9 @@ pipeline:
     cache_dir: ./tmp
     model_name: bert
     model_weights: pre_models
+  - name: RegexFeaturizer
   - name: DIETClassifier
     epochs: 100
-  - name: RegexEntityExtractor
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

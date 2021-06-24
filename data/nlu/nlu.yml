@@ -1,273 +1,63 @@
 version: "2.0"
 
 nlu:
-  - intent: greet
+  - intent: query_knowledge_base
     examples: |
-      - 你好
-      - 嗨
-      - 您好
-      - 早上好
-      - 下午好
-      - 晚上好
-      - 早
-      - 冲
+      - 请推荐一些[电影]{"entity": "object_type", "value": "Movie"}
+      - 给我推荐一些[电影]{"entity": "object_type", "value": "Movie"}
+      - 来点[电影]{"entity": "object_type", "value": "Movie"}看看
+      - 有哪些[电影]{"entity": "object_type", "value": "Movie"}
+      - 查一下[喜剧](category)[电影]{"entity": "object_type", "value": "Movie"}
+      - 有哪些[中文]{"entity": "language", "value": "汉语普通话"}[电影]{"entity": "object_type", "value": "Movie"}
+      - [喜剧](category)类型的有哪些？
+      - [剧情](category)的有吗？
+      - 有[冒险](category)类型的吗？
 
-  - intent: goodbye
+  - intent: actor_movies_query
     examples: |
-      - good afternoon
-      - cu
-      - good by
-      - cee you later
-      - good night
-      - bye
-      - goodbye
-      - have a nice day
-      - see you around
-      - bye bye
-      - see you later
-      - 明天见
-      - 下次再见
-      - 有缘再见
-      - 江湖再见
+      - [王力宏]{"entity": "actor", "value": "王力宏", "role": "relation"}出演过哪些[电影]{"entity": "object_type", "value": "Movie"}
+      - 哪些[电影]{"entity": "object_type", "value": "Movie"}里面有[王力宏]{"entity": "actor", "value": "王力宏", "role": "relation"}
 
-
-  - intent: affirm
+  - intent: know_more
     examples: |
-      - yes
-      - y
-      - indeed
-      - of course
-      - that sounds good
-      - correct
-      - 好
-      - 没问题
-      - 搞得定
-      - ok了
-      - 解决了
+      - [第一]{"entity": "mention", "value": "1"}部是[哪一年]{"entity": "attribute", "value": "showtime"}的？
+      - [第二]{"entity": "mention", "value": "2"}部是哪种[类型]{"entity": "attribute", "value": "category"}的
+      - [最后]{"entity": "mention", "value": "LAST"}部[评分]{"entity": "attribute", "value": "rate"}是多少
+      - [第三部]{"entity": "mention", "value": "3"}部[上映时间]{"entity": "attribute", "value": "showtime"}
+      - [上映时间]{"entity": "attribute", "value": "showtime"}呢？
+      - [评分]{"entity": "attribute", "value": "rate"}呢？
+      - 是啥[类型]{"entity": "attribute", "value": "category"}的
+      - [演员]{"entity": "attribute", "value": "relation", "role": "actor"}有哪些？
 
-  - intent: deny
+
+  - synonym: 出演
     examples: |
-      - no
-      - n
-      - never
-      - I don't think so
-      - don't like that
-      - no way
-      - not really
-      - 不
-      - 不要
-      - 不是的
-      - 不用这样吧
+        - 演出
 
-
-  - intent: mood_great
+  - synonym: 中文
     examples: |
-      - perfect
-      - great
-      - amazing
-      - feeling like a king
-      - wonderful
-      - I am feeling very good
-      - I am great
-      - I am amazing
-      - I am going to save the world
-      - super stoked
-      - extremely good
-      - so so perfect
-      - so good
-      - so perfect
-      - 完美
-      - 棒极了
-      - 太帅了
-      - 棒呆了
-      - oh my god
-      - 你是最棒的
-      - 不错哟
-      - 不错
-
-  - intent: mood_unhappy
+      - 国语
+  - synonym: 类型
     examples: |
-      - my day was horrible
-      - I am sad
-      - I don't feel very well
-      - I am disappointed
-      - super sad
-      - I'm so sad
-      - sad
-      - very sad
-      - unhappy
-      - not good
-      - not very good
-      - extremly sad
-      - so saad
-      - so sad
-      - 太难了吧
-      - 不要吧
-      - 血亏
-      - 难受
-      - 有点难
-      - 哭了
-      - 一把辛酸泪
+      - 种类
+      - 分类
 
 
-  - intent: bot_challenge
+  - lookup: category
     examples: |
-      - are you a bot?
-      - are you a human?
-      - am I talking to a bot?
-      - am I talking to a human?
-      - 你是机器人吗
-      - 我在和机器人说话
-      - 我去，你是机器人
-      - 你是真人吗
-      - 真人
-
-  - intent: 查询天气
-    examples: |
-      - [成都]{"entity": "city"}天气如何
-      - [成都]{"entity": "city"}的天气怎样
-      - 帮我查一下[成都]{"entity": "city"}的天气
-      - 查一下[成都]{"entity": "city"}的天气
-      - [成都]{"entity": "city"}今天冷不冷
-      - [成都]{"entity": "city"}今天热不热
-
-  - intent: 再问一次
-    examples: |
-      - [成都](city)呢
-      - 那[成都](city)呢
-      - [成都](city)如何呢
-      - [成都](city)怎样呢
-      - 那[成都](city)如何呢
-      - 那[成都](city)怎样呢
-
-  - intent: 找饭店
-    examples: |
-      - 我正在寻找一家饭店
-      - 我想找个吃饭的地方
-      - 可以找到[泰餐](cuisine)吗
-      - 一个提供[日料](cuisine)的地方
-      - 我想找一家餐厅
-      - 我在找一家[烧烤](cuisine)店
-      - 我能找到一家[中餐](cuisine)馆吗
-      - 我需要找一家饭店
-      - 我正在寻找可以吃[自助](cuisine)食物的地方，三个人用
-      - 啊，我在找可以吃[湘菜](cuisine)的地方
-      - 我能找一家餐馆，有[粤菜](cuisine)的那种吗
-      - 找一家[火锅](cuisine)店
-      - 来家餐馆
-      - 帮我找个吃饭的地方
-      - 我想定个双人餐，[西餐](cuisine)那种
-      - 4个人吃饭的地方
-      - 帮我定个[本帮](cuisine)菜饭店，3个人
-      - 能帮我找个5个人吃饭的地方吗
-      - 我想预订个双人餐
-      - 找一家[川菜](cuisine)馆，5个人
-      - 找个7个人吃饭的地方
-      - 有没有4个人适合吃的[麻辣烫](cuisine)店
-
-  - synonym: 饭店
-    examples: |
-      - 吃饭的地方
-      - 餐厅
-      - 餐馆
-
-
-  - intent: stop
-    examples: |
-      - 你不能帮我
-      - 呸，你根本不能帮我
-      - 换人，下一个
-      - 你不能帮我解决问题
-      - 你不行啊
-      - 我知道了，你不行啊
-      - 不是我要的
-      - 我知道了，但是没用
-      - 不行，完全没用
-      - 真的没用啊
-      - 你在说啥，换一个
-      - 我觉得你不能帮我
-      - 退出去
-      - 停
-      - 重来
-      - 你在说啥哦
-      - 你怕是在开玩笑
-      - 那是啥
-      - 还有啥
-
-  - regex: number
-    examples: |
-      - \d+
-
-  - intent: inform
-    examples: |
-      - [西餐](cuisine)厅
-      - [中餐](cuisine)馆
-      - [泰餐](cuisine)吧
-      - [火锅](cuisine)店
-      - [串串](cuisine)香
-      - [川菜](cuisine)馆
-      - [粤菜](cuisine)吧
-      - [本帮](cuisine)菜
-      - [麻辣烫](cuisine)
-      - [湘菜](cuisine)吧
-      - [自助](cuisine)餐
-      - [烧烤](cuisine)店
-      - [日料](cuisine)店
-      - 想吃[火锅](cuisine)
-      - 吃[串串](cuisine)吧
-      - 还是[日料](cuisine)吧
-      - 找一家[日料](cuisine)店如何
-      - [外面](seating)
-      - [里面](seating)
-      - [里面](seating)好一点
-      - 我想坐[里面](seating)
-      - 还是坐[外面](seating)吧
-      - 还是[外面](seating)吧
-      - [2](number)个人
-      - [12](number)个
-      - [3](number)
-      - [4](number)位
-      - 我觉得还[不错](feedback)
-      - [还行](feedback)吧
-      - [不行](feedback)
-
-  - intent: 看图片
-    examples: |
-      - 看看[猫](look_img)
-      - 看看[狗](look_img)
-      - 看看[狐狸](look_img)
-      - 吸[猫](look_img)
-      - 今日份吸[猫](look_img)
-      - 想吸[猫](look_img)了
-      - 今天的[狗](look_img)
-      - 来一张[猫](look_img)看看
-
-  - intent: 搜动漫
-    examples: |
-      - 搜一下动漫
-      - 帮我搜一下动漫
-      - 搜一下动漫图片
-      - 查一下这个啥动漫
-      - 查一下动漫图片来自哪里
-      - 搜动漫
-      - 搜动漫来自哪里
-      - 查动漫
-
-  - intent: 查币
-    examples: |
-      - [BTC](coin_name)价格
-      - [BTC](coin_name)趋势
-      - [BTC](coin_name)分时图
-      - 帮我看一下[BTC](coin_name)趋势
-
-  - synonym: BTC
-    examples: |
-      - 比特币
-
-
-  - intent: 试试按钮
-    examples: |
-      - 按钮功能
-      - 试试按钮
-
-
+      - 冒险
+      - 剧情
+      - 奇幻
+      - 悬疑
+      - 历史
+      - 古装
+      - 情色
+      - 惊悚
+      - 音乐
+      - 同性
+      - 传记
+      - 战争
+      - 犯罪
+      - 喜剧
+      - 武侠
+      - 家庭

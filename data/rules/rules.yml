@@ -1,63 +1,14 @@
 version: "2.0"
-
 rules:
-
-  - rule: Say goodbye anytime the user says goodbye
+  - rule: query knowledge base
     steps:
-      - intent: goodbye
-      - action: utter_goodbye
-
-  - rule: Say 'I am a bot' anytime the user challenges
+      - intent: query_knowledge_base
+      - action: action_query_knowledge_base
+  - rule: query knowledge base by relation
     steps:
-      - intent: bot_challenge
-      - action: utter_iamabot
-
-  - rule: rasa faq
+      - intent: actor_movies_query
+      - action: action_query_knowledge_base
+  - rule: 查询额外信息
     steps:
-      - intent: rasa_faq
-      - action: utter_rasa_faq
-
-  - rule: 查询天气
-    steps:
-      - intent: 查询天气
-      - action: action_query_weather
-
-  - rule: 激活 饭店form
-    steps:
-      - intent: 找饭店
-      - action: 饭店_form
-      - active_loop: 饭店_form
-
-  - rule: 提交表单
-    condition:
-    - active_loop: 饭店_form
-    steps:
-      - action: 饭店_form
-      - active_loop: null
-      - action: utter_submit
-      - action: utter_slots_values
-      - action: action_clear_饭店_form_slots
-
-  - rule: 看图片
-    steps:
-      - intent: 看图片
-      - action: action_find_img
-
-  - rule: 激活搜动漫
-    steps:
-      - intent: 搜动漫
-      - action: 搜动漫_form
-      - active_loop: 搜动漫_form
-
-  - rule: 提交搜动漫
-    condition:
-      - active_loop: 搜动漫_form
-    steps:
-      - action: 搜动漫_form
-      - active_loop: null
-      - action: action_search_anime_img
-
-  - rule: 查币
-    steps:
-      - intent: 查币
-      - action: action_search_coin_history
+      - intent: know_more
+      - action: action_query_knowledge_base

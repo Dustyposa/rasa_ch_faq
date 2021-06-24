@@ -1,170 +1,66 @@
 version: "2.0"
 
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - rasa_faq
-  - 查询天气
-  - 再问一次
-  - 找饭店
-  - inform
-  - stop
-  - 搜动漫
-  - 看图片
-  - 查币
-  - 试试按钮
+  - query_knowledge_base
+  - actor_movies_query
+  - know_more
 
-responses:
-  utter_greet:
-    - text: "嘿！最近怎样?"
-
-  utter_cheer_up:
-    - text: "让我们来庆祝一下！"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-    - text: "有帮到你吗?"
-
-  utter_happy:
-    - text: "好的，继续加油！"
-
-  utter_goodbye:
-    - text: "Bye"
-    - text: "拜"
-
-  utter_iamabot:
-    - text: "我是基于 Rasa 的机器人🤖"
-
-  utter_default:
-    - text: "不好意思，你这个问题太高深啦。可以在 issue 中提问哦，切换为更智能的 AI！"
-
-  utter_submit:
-    - text: "已经完成！"
-  utter_slots_values:
-    - text: "我将使用以下参数运行一个餐厅搜索:\n
-               - 餐厅类别: {cuisine}\n
-               - 人数: {num_people}\n
-               - 坐外面: {outdoor_seating}\n
-               - 偏好: {preferences}\n
-               - 反馈: {feedback}"
-  utter_ask_continue:
-    - text: "要继续吗?"
-
-  utter_ask_cuisine:
-    - text: "哪种店?"
-  utter_ask_num_people:
-    - text: "几位呢?"
-  utter_ask_outdoor_seating:
-    - text: "要坐在外面吗?"
-  utter_ask_preferences:
-    - text: "有什么偏好吗？"
-  utter_ask_feedback:
-    - text: "您觉得体验如何？"
-  utter_ask_搜动漫_form_img:
-    - text: "请输入图片url或者直接上传图片"
-  utter_wrong_cuisine:
-    - text: "店铺类型不在数据库中，请换一种餐种"
-  utter_wrong_num_people:
-    - text: "人数应该是一个正整数，请再试一次"
-  utter_wrong_outdoor_seating:
-    - text: "无法将输入值转换为布尔值，请重试"
-  utter_url错误:
-    - text: "url有误，请检查后再重试～"
-  utter_试试按钮:
-    - text: "这个按钮有两个功能，你可以试试："
-      buttons:
-        - title: "吸猫"
-          payload: '/看图片{{"look_img":"猫"}}'
-        - title: "你是不是bot"
-          payload: "/bot_challenge"
+entities:
+  - object_type
+  - mention
+  - attribute
+  - hotel
+  - restaurant
+  - cuisine
+  - city
+  - realation_County
+  - language
+  - category
+  - actor
 
 slots:
+  object_type:
+    type: text
+    influence_conversation: false
+  mention:
+    type: text
+    influence_conversation: false
+  attribute:
+    type: text
+    influence_conversation: false
+  hotel:
+    type: text
+    influence_conversation: false
+  restaurant:
+    type: text
+    influence_conversation: false
   city:
-    type: any
+    type: text
+    influence_conversation: false
   cuisine:
     type: text
     influence_conversation: false
-    auto_fill: false
-  num_people:
-    type: float
-    influence_conversation: false
-    auto_fill: false
-  outdoor_seating:
+  realation_County:
     type: text
     influence_conversation: false
-    auto_fill: false
-  preferences:
+  language:
     type: text
     influence_conversation: false
-    auto_fill: false
-  feedback:
+  category:
     type: text
     influence_conversation: false
-    auto_fill: false
-  requested_slot:
+  actor:
     type: text
     influence_conversation: false
-  img:
-    type: text
-    influence_conversation: false
-    auto_fill: false
 
-entities:
-  - city
-  - cuisine
-  - number
-  - feedback
-  - seating
-  - look_img
-  - coin_name
-
-forms:
-  饭店_form:
-    cuisine:
-      - type: from_entity
-        entity: cuisine
-        not_intent: faq
-    num_people:
-      - type: from_entity
-        entity: number
-        intent: [inform, 找饭店]
-    outdoor_seating:
-      - type: from_entity
-        entity: seating
-      - type: from_intent
-        intent: affirm
-        value: true
-      - type: from_intent
-        intent: deny
-        value: false
-    preferences:
-      - type: from_intent
-        intent: deny
-        value: no additional preferences
-      - type: from_text
-        not_intent: affirm
-    feedback:
-      - type: from_entity
-        entity: feedback
-      - type: from_text
-
-  搜动漫_form:
-    img:
-      - type: from_text
 actions:
-  - action_query_weather
-  - validate_饭店_form
-  - validate_搜动漫_form
-  - action_clear_饭店_form_slots
-  - action_find_img
-  - action_search_anime_img
-  - action_search_coin_history
+- action_query_knowledge_base
+
+responses:
+  utter_ask_rephrase:
+  - text: "Sorry, I'm not sure I understand. Can you rephrase?"
+  - text: "Can you please rephrase? I did not got that."
 
 session_config:
-  session_expiration_time: 60
+  session_expiration_time: 60  # value in minutes
   carry_over_slots_to_new_session: true

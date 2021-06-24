@@ -1,254 +1,235 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/custom-actions
+from typing import Text, Dict, Any, List, Optional
 
-
-# This is a simple example for a custom action which utters "Hello World!"
-import mimetypes
-import random
-from typing import Any, Text, Dict, List
-
-from rasa_sdk import Action, Tracker, FormValidationAction
+from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.knowledge_base.actions import ActionQueryKnowledgeBase
 
-import cpca
-import validators
+from rasa_sdk.knowledge_base.utils import (SLOT_OBJECT_TYPE,
+                                           SLOT_LAST_OBJECT_TYPE,
+                                           SLOT_ATTRIBUTE,
+                                           reset_attribute_slots,
+                                           get_object_name,
+                                           SLOT_MENTION,
+                                           SLOT_LAST_OBJECT,
+                                           SLOT_LISTED_OBJECTS)
+from rasa_sdk.types import DomainDict
+from rasa_sdk import utils
 
-from actions.utils.coins import CoinDataManager
-from actions.utils.request import get
-from actions.utils.search import search_anime, AnimalImgSearch
-
-QUERY_KEY = ""
-
-CITY_LOOKUP_URL = "https://geoapi.qweather.com/v2/city/lookup"
-WEATHER_URL = "https://devapi.qweather.com/v7/weather/now"
+from actions.storage import Neo4JKnowledgeBase
 
 
-class ActionQueryWeather(Action):
+def get_attribute_slots(
+        tracker: "Tracker", object_attributes: List[Text]
+) -> List[Dict[Text, Text]]:
+    """
+    Copied from rasa_sdk.knowledge_base.utils  and overridden
+    as we also need to return the entity role for range queries.
+    If the user mentioned one or multiple attributes of the provided object_type in
+    an utterance, we extract all attribute values from the tracker and put them
+    in a list. The list is used later on to filter a list of objects.
+    For example: The user says 'What Italian restaurants do you know?'.
+    The NER should detect 'Italian' as 'cuisine'.
+    We know that 'cuisine' is an attribute of the object type 'restaurant'.
+    Thus, this method returns [{'name': 'cuisine', 'value': 'Italian'}] as
+    list of attributes for the object type 'restaurant'.
+    Args:
+        tracker: the tracker
+        object_attributes: list of potential attributes of object
+    Returns: a list of attributes
+    """
+    attributes = []
 
-    def name(self) -> Text:
-        return "action_query_weather"
+    for attr in object_attributes:
+        attr_val = tracker.get_slot(attr) if attr in tracker.slots else None
+        if attr_val is not None:
+            entities = tracker.latest_message.get("entities", [])
+            role = [e['role'] for e in entities if e['entity'] == attr and e['value'] == attr_val and 'role' in e]
+            role = role[0] if len(role) else None
+            attributes.append({"name": attr, "value": attr_val, "role": role})
 
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        user_in = tracker.latest_message.get("text")
-        province, city = cpca.transform([user_in]).loc[0, ["省", "市"]]
-        city = province if city in ["市辖区", None] else city
-        text = await self.get_weather(await self.get_location_id(city))
-        dispatcher.utter_message(text=text)
+    return attributes
+
+
+def get_latest_entity_relation_role_value(tracker: Tracker) -> Optional[Text]:
+    entities = tracker.latest_message.get("entities", [])
+    for x in entities:
+        if x.get("value") == "relation":
+            return x.get("role")
+
+
+class ActionNeo4JKB(ActionQueryKnowledgeBase):
+    def __init__(self):
+        # load knowledge base with data from the given file
+        knowledge_base = Neo4JKnowledgeBase()
+
+        # overwrite the representation function of the hotel object
+        # by default the representation function is just the name of the object
+        # knowledge_base.set_representation_function_of_object(
+        #     "hotel", lambda obj: obj["name"] + " (" + obj["city"] + ")"
+        # )
+
+        super().__init__(knowledge_base)
+
+    async def run(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+        object_type = tracker.get_slot(SLOT_OBJECT_TYPE)
+        last_object_type = tracker.get_slot(SLOT_LAST_OBJECT_TYPE)
+        attribute = tracker.get_slot(SLOT_ATTRIBUTE)
+
+        new_request = object_type != last_object_type
+
+        if not object_type:
+            # object type always needs to be set as this is needed to query the
+            # knowledge base
+            dispatcher.utter_message(template="utter_ask_rephrase")
+            return []
+
+        if not attribute or new_request:
+            return await self._query_objects(dispatcher, object_type, tracker)
+        elif attribute:
+            return await self._query_attribute(
+                dispatcher, object_type, attribute, tracker
+            )
+
+        dispatcher.utter_message(template="utter_ask_rephrase")
         return []
 
-    @staticmethod
-    async def get_location_id(city):
-        if not QUERY_KEY:
-            raise ValueError("需要获得自己的key。。。看一下官方文档即可。 参考地址: qweather.com")
-        params = {"location": city, "key": QUERY_KEY}
-        res = await get(CITY_LOOKUP_URL, params=params)
-        return res["location"][0]["id"]
-        # return 124
+    async def _query_objects(
+            self, dispatcher: CollectingDispatcher, object_type: Text, tracker: Tracker
+    ) -> List[Dict]:
+        """
+        Queries the knowledge base for objects of the requested object type and
+        outputs those to the user. The objects are filtered by any attribute the
+        user mentioned in the request.
 
-    @staticmethod
-    async def get_weather(location_id):
-        params = {"location": location_id, "key": QUERY_KEY}
-        res = (await get(WEATHER_URL, params=params))["now"]
-        # res = {'code': '200', 'updateTime': '2021-04-12T13:47+08:00', 'fxLink': 'http://hfx.link/2bc1',
-        #        'now': {'obsTime': '2021-04-12T13:25+08:00', 'temp': random.randint(10, 30), 'feelsLike': '19',
-        #                'icon': '305', 'text': '小雨', 'wind360': '315', 'windDir': '西北风', 'windScale': '0',
-        #                'windSpeed': '0', 'humidity': '100', 'precip': '0.1', 'pressure': '1030', 'vis': '3',
-        #                'cloud': '91', 'dew': '16'},
-        #        'refer': {'sources': ['Weather China'], 'license': ['no commercial use']}}
-        # res = res["now"]
-        return f"{res['text']} 风向 {res['windDir']}\n温度: {res['temp']} 摄氏度\n体感温度：{res['feelsLike']}"
+        Args:
+            dispatcher: the dispatcher
+            tracker: the tracker
 
+        Returns: list of slots
+        """
+        object_attributes = await utils.call_potential_coroutine(
+            self.knowledge_base.get_attributes_of_object(object_type)
+        )
 
-class ValidateRestaurantForm(FormValidationAction):
-    """validation action 示例"""
+        # get all set attribute slots of the object type to be able to filter the
+        # list of objects
+        attributes = get_attribute_slots(tracker, object_attributes)
+        # query relation
+        self._query_relations(tracker, attributes)
+        # query the knowledge base
+        objects = await utils.call_potential_coroutine(
+            self.knowledge_base.get_objects(object_type, attributes)
+        )
 
-    def name(self) -> Text:
-        return "validate_饭店_form"
+        await utils.call_potential_coroutine(
+            self.utter_objects(dispatcher, object_type, objects)
+        )
 
-    @staticmethod
-    def cuisine_db() -> List[Text]:
-        """数据库支持的餐种 cuisines."""
+        if not objects:
+            return reset_attribute_slots(tracker, object_attributes)
 
-        return [
-            "西餐",
-            "中餐",
-            "泰餐",
-            "火锅",
-            "串串",
-            "川菜",
-            "粤菜",
-            "本帮",
-            "麻辣烫",
-            "湘菜",
-            "日料",
+        key_attribute = await utils.call_potential_coroutine(
+            self.knowledge_base.get_key_attribute_of_object(object_type)
+        )
+
+        last_object = None if len(objects) > 1 else objects[0][key_attribute]
+
+        slots = [
+            SlotSet(SLOT_OBJECT_TYPE, object_type),
+            SlotSet(SLOT_MENTION, None),
+            SlotSet(SLOT_ATTRIBUTE, None),
+            SlotSet(SLOT_LAST_OBJECT, last_object),
+            SlotSet(SLOT_LAST_OBJECT_TYPE, object_type),
+            SlotSet(
+                SLOT_LISTED_OBJECTS, list(map(lambda e: e[key_attribute], objects))
+            ),
         ]
 
-    @staticmethod
-    def is_int(string: Text) -> bool:
-        """检查 string 是一个 integer."""
+        return slots + reset_attribute_slots(tracker, object_attributes)
 
-        try:
-            int(string)
-            return True
-        except ValueError:
-            return False
+    def _query_relations(self, tracker: Tracker, attr: List) -> None:
+        """关系查询"""
 
-    def validate_cuisine(
+        for relation_key in (set(self.knowledge_base.relations) & tracker.slots.keys()):
+            if tracker.get_slot(relation_key) \
+                    and \
+                    tracker.get_latest_entity_values(relation_key, entity_role="relation"):
+                attr.append({"name": relation_key, "value": tracker.get_slot(relation_key), "role": "relation"})
+                return
+
+    async def _query_attribute(
             self,
-            value: Text,
             dispatcher: CollectingDispatcher,
+            object_type: Text,
+            attribute: Text,
             tracker: Tracker,
-            domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """检查 cuisine 值"""
-        print(f"slots: {tracker.current_slot_values()}, value: {value}")
-        if value.lower() in self.cuisine_db():
-            # validation succeeded, set the value of the "cuisine" slot to value
-            return {"cuisine": value}
-        else:
-            dispatcher.utter_message(template="utter_wrong_cuisine")
-            # validation failed, set this slot to None, meaning the
-            # user will be asked for the slot again
-            return {"cuisine": None}
+    ) -> List[Dict]:
+        """
+        Queries the knowledge base for the value of the requested attribute of the
+        mentioned object and outputs it to the user.
 
-    def validate_num_people(
-            self,
-            value: Text,
-            dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """检查 num_people 值"""
-        value = next(tracker.get_latest_entity_values("number"), None)
-        if self.is_int(value) and int(value) > 0:
-            return {"num_people": value}
-        else:
-            dispatcher.utter_message(template="utter_wrong_num_people")
-            # validation failed, set slot to None
-            return {"num_people": None}
+        Args:
+            dispatcher: the dispatcher
+            tracker: the tracker
 
-    def validate_outdoor_seating(
-            self,
-            value: Text,
-            dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """检查 outdoor_seating 值"""
+        Returns: list of slots
+        """
 
-        if isinstance(value, str):
-            if "外面" in value:
-                # convert "out..." to True
-                return {"outdoor_seating": True}
-            elif "里面" in value:
-                # convert "in..." to False
-                return {"outdoor_seating": False}
-            else:
-                dispatcher.utter_message(template="utter_wrong_outdoor_seating")
-                # validation failed, set slot to None
-                return {"outdoor_seating": None}
+        object_name = get_object_name(
+            tracker,
+            self.knowledge_base.ordinal_mention_mapping,
+            self.use_last_object_mention,
+        )
+        if attribute == "relation":
+            object_of_interest = await utils.call_potential_coroutine(
+                self.knowledge_base.get_relation_object(
+                    object_type, object_name, get_latest_entity_relation_role_value(tracker)
+                )
+            )
+
+        elif not object_name or not attribute:
+            dispatcher.utter_message(template="utter_ask_rephrase")
+            return [SlotSet(SLOT_MENTION, None)]
 
         else:
-            # affirm/deny was picked up as True/False by the from_intent mapping
-            return {"outdoor_seating": value}
+            object_of_interest = await utils.call_potential_coroutine(
+                self.knowledge_base.get_object(object_type, object_name)
+            )
 
+        if not object_of_interest or attribute not in object_of_interest:
+            dispatcher.utter_message(template="utter_ask_rephrase")
+            return [SlotSet(SLOT_MENTION, None)]
 
-class ClearRestaurantFormSlot(Action):
-    """清除掉上次收集的 slots"""
+        value = object_of_interest[attribute]
 
-    def name(self) -> Text:
-        return "action_clear_饭店_form_slots"
+        object_representation = (await utils.call_potential_coroutine(
+            self.knowledge_base.get_representation_function_of_object(object_type)
+        ))(object_of_interest)
 
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        clear_slots = domain.get("forms", {})["饭店_form"]["required_slots"].keys()
-        slots_data = domain.get("slots")
-        return [SlotSet(slot_name, slots_data.get(slot_name)['initial_value']) for slot_name in clear_slots]
+        key_attribute = await utils.call_potential_coroutine(
+            self.knowledge_base.get_key_attribute_of_object(object_type)
+        )
 
+        object_identifier = object_of_interest[key_attribute]
 
-class ActionFindImg(Action):
-    SUPPORT_IMAGE_TYPE = {
-        "猫": AnimalImgSearch.get_dog_img,
-        "狐狸": AnimalImgSearch.get_cat_img,
-        "狗": AnimalImgSearch.get_fox_img
-    }
+        await utils.call_potential_coroutine(
+            self.utter_attribute_value(
+                dispatcher, object_representation, attribute, value
+            )
+        )
 
-    def name(self) -> Text:
-        return "action_find_img"
+        slots = [
+            SlotSet(SLOT_OBJECT_TYPE, object_type),
+            SlotSet(SLOT_ATTRIBUTE, None),
+            SlotSet(SLOT_MENTION, None),
+            SlotSet(SLOT_LAST_OBJECT, object_identifier),
+            SlotSet(SLOT_LAST_OBJECT_TYPE, object_type),
+        ]
 
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        img_name = next(tracker.get_latest_entity_values("look_img"), None)
-        if img_name in self.SUPPORT_IMAGE_TYPE.keys():
-            dispatcher.utter_message(image=await self.SUPPORT_IMAGE_TYPE[img_name]())
-        else:
-            dispatcher.utter_message(text="不好意思，暂时不能吸该动物呢～～")
-        return []
-
-
-class SearchAnimeValidateForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_搜动漫_form"
-
-    def validate_img(
-            self,
-            value: Text,
-            dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        if validators.url(value):
-            return {"img": f"u_{value}"}
-        elif self.is_url_image(value):
-            return {"img": f"f_{value}"}
-        dispatcher.utter_message(template="utter_url错误")
-        return {"img": None}
-
-    @staticmethod
-    def is_url_image(url: str) -> bool:
-        mimetype, encoding = mimetypes.guess_type(url)
-        return mimetype is not None and mimetype.startswith('image')
-
-
-class SearchAnime(Action):
-    def name(self) -> Text:
-        return "action_search_anime_img"
-
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        img_url = tracker.current_slot_values()["img"]
-        res_string = await search_anime(img_url)
-        dispatcher.utter_message(text=res_string)
-        clear_slots = domain.get("forms", {})["搜动漫_form"]["required_slots"].keys()
-        slots_data = domain.get("slots")
-        print(f"cs: {clear_slots}")
-        print(f"sd: {slots_data}")
-        return [SlotSet(slot_name, slots_data.get(slot_name)['initial_value']) for slot_name in clear_slots]
-
-
-class CoinSearchAction(Action):
-    def name(self) -> Text:
-        return "action_search_coin_history"
-
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        img_msg = await CoinDataManager().get_img()
-        dispatcher.utter_message(image=img_msg)
-        return []
-
-
-if __name__ == '__main__':
-    # params = {"location": "上海", "key": QUERY_KEY}
-    # print(requests.get(CITY_LOOKUP_URL, params=params).json()["location"][0]["id"])
-    params = {"location": 101020100, "key": QUERY_KEY}
-    # print(requests.get(WEATHER_URL, params=params).json())
+        return slots

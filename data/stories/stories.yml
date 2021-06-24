@@ -1,44 +1,6 @@
 version: "2.0"
-
 stories:
-
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
-- story: 尝试按钮1
-  steps:
-    - intent: 试试按钮
-    - action: utter_试试按钮
-    - intent: 看图片
-    - action: action_find_img
-
-- story: 尝试按钮2
-  steps:
-    - intent: 试试按钮
-    - action: utter_试试按钮
-    - intent: bot_challenge
-    - action: utter_iamabot
+  - story: query knowledge base
+    steps:
+    - intent: query_knowledge_base
+    - action: action_query_knowledge_base
