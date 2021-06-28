@@ -1,4 +1,6 @@
 ![](https://img.shields.io/badge/python-3.7%20%7C%20-blue)
+##  一个基于知识图谱的电影查询的对话机器人
+
 ### 待增加功能
 - 1. 根据时间进行查询 
 
@@ -17,7 +19,15 @@
 > - [ES接入](https://medium.com/bakdata/conversational-search-in-knowledge-bases-using-nlp-nlu-and-chatbots-d84f74c09396)
  
 ### 如何使用
-待补充
+
+#### 1. 数据导入
+- 脚本导入
+> 看[这里](https://github.com/Dustyposa/kg-example)
+
+- `Cypher` 命令行导入
+- 1. 创建 `Movie` 实体
+   
+
 
 ### 一些问题解答
 

@@ -32,7 +32,8 @@ class Neo4JKnowledgeBase(KnowledgeBase):
 
     def __init__(self):
         from py2neo import Graph
-        self.graph = Graph("neo4j://neo:7687")
+        from actions.configs import NEO_ADDRESS
+        self.graph = Graph(NEO_ADDRESS)
         # self.graph = ...
         self.relations = self._get_relations()
         self.data = self.get_data()
