@@ -7,7 +7,8 @@
 >  前端地址: [这里](https://github.com/Dustyposa/rasa_bot_front)
 #### 功能更新
 - [2021-06-24] 增加知图谱的接入(放在[GRAPH](https://github.com/Dustyposa/rasa_ch_faq/tree/GRAPH)分支了)
-- [2021-06-01] 增加`文本纠错 pipeline` (由于 `demo` 较慢，默认未开启，如何[开启](./compoments/nlu/helpers#文本纠错)？) 
+- [2021-06-01] 增加`文本纠错 pipeline` (由于 `demo` 较慢，默认未开启，如何[开启](./compoments/nlu/helpers#文本纠错)？)
+- [2021-05-20] `AlbertFeaturizer` （在[dev](https://github.com/Dustyposa/rasa_ch_faq/tree/dev)分支） 
 - [2021-05-13] 增加按钮 demo
 - [2021-05-11] 支持查看 `BTC` 行情
 - [2021-05-08] 支持 `吸猫\狗\狐狸`。支持 根据图片搜索动漫出处。  
