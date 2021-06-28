@@ -12,6 +12,15 @@ nlu:
       - [喜剧](category)类型的有哪些？
       - [剧情](category)的有吗？
       - 有[冒险](category)类型的吗？
+      - 能推荐一些[2012年之后]{"entity": "showtime", "value": 2012, "role": "gt"}的[电影]{"entity": "object_type", "value": "Movie"}吗？
+      - 能推荐一些[2012年之前]{"entity": "showtime", "value": 2012, "role": "lt"}的[电影]{"entity": "object_type", "value": "Movie"}吗？
+      - 能推荐一些[2012年]{"entity": "showtime", "value": 2012, "role": "eq"}的[电影]{"entity": "object_type", "value": "Movie"}吗？
+      - 能推荐一些[2013年]{"entity": "showtime", "value": 2013, "role": "eq"}的[电影]{"entity": "object_type", "value": "Movie"}吗？
+      - 能推荐一些[2015年以前]{"entity": "showtime", "value": 2013, "role": "lt"}的[电影]{"entity": "object_type", "value": "Movie"}吗？
+      - [2012年]{"entity": "showtime", "value": 2012, "role": "eq"}的[冒险](category)类型的电影有吗？
+      - [2012年之前]{"entity": "showtime", "value": 2012, "role": "lt"}的[冒险](category)类型的电影有吗？
+      - [2012年之后]{"entity": "showtime", "value": 2012, "role": "gt"}的[冒险](category)类型的电影有吗？
+
 
   - intent: actor_movies_query
     examples: |

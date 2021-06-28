@@ -3,7 +3,7 @@ from enum import Enum
 from itertools import chain
 from typing import Text, Dict, Any, List, Optional, Callable
 
-from actions.queres import generate_list_query
+from actions.queres import generate_list_query, generate_range_query
 from rasa_sdk.knowledge_base.storage import KnowledgeBase, InMemoryKnowledgeBase
 
 QUERY_GENERATE_TABLE: Dict[str, Callable] = defaultdict(lambda: lambda k, v: f"{k}=\"{v}\"")
@@ -11,6 +11,7 @@ QUERY_GENERATE_TABLE: Dict[str, Callable] = defaultdict(lambda: lambda k, v: f"{
 QUERY_GENERATE_TABLE.update(**{
     "language": generate_list_query,
     "category": generate_list_query,
+    "showtime": generate_range_query
 })
 
 
@@ -85,7 +86,7 @@ class Neo4JKnowledgeBase(KnowledgeBase):
         # filter objects by attributes
         if attributes:
             cypher += "WHERE " + " AND ".join(
-                [QUERY_GENERATE_TABLE[a['name']](f"p.{a['name']}", a['value']) for a in attributes]) + "\n"
+                [QUERY_GENERATE_TABLE[a['name']](a) for a in attributes]) + "\n"
         cypher += f"RETURN p LIMIT {limit}"
         return self.run_graph(cypher).to_series().to_list()
 

@@ -120,6 +120,7 @@ class ActionNeo4JKB(ActionQueryKnowledgeBase):
         # get all set attribute slots of the object type to be able to filter the
         # list of objects
         attributes = get_attribute_slots(tracker, object_attributes)
+        print(F"attributes: {attributes}")
         # query relation
         self._query_relations(tracker, attributes)
         # query the knowledge base

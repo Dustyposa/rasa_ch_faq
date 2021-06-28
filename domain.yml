@@ -17,6 +17,7 @@ entities:
   - language
   - category
   - actor
+  - showtime
 
 slots:
   object_type:
@@ -50,6 +51,9 @@ slots:
     type: text
     influence_conversation: false
   actor:
+    type: text
+    influence_conversation: false
+  showtime:
     type: text
     influence_conversation: false
 
