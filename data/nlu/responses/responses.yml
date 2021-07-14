@@ -141,3 +141,7 @@ responses:
 
   utter_rasa_faq/如何用代码加载模型:
     - text: "可以参考 `load_model.py` 该文件。"
+
+  utter_rasa_faq/限制event长度:
+    - text: "可以参考 https://medium.com/graymatrix/using-a-custom-tracker-store-to-manage-max-event-history-in-rasa-e99279ca615f"
+

@@ -194,6 +194,14 @@ nlu:
       - 如何直接加载训练好的模型
       - 加载训练好的模型
 
+  - intent: rasa_faq/限制event长度
+    examples: |
+      - 为什么rasa运行越来越慢？
+      - event太多了怎么办
+      - 怎么限制event的长度呢？
+      - 越来越慢怎么办
+      - 为什么越来越慢
+
 
   - synonym: form
     examples: |
