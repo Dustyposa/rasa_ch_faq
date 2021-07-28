@@ -69,9 +69,10 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
                 if not onnx_path.exists():
                     # 开启量化
                     optimize_path = convert_graph_to_onnx.optimize(old_onnx_path)
-                    Path(onnx_path).unlink()
                     onnx_path = convert_graph_to_onnx.quantize(optimize_path)
+                    Path(old_onnx_path).unlink()
                     Path(optimize_path).unlink()
+
             self.model = self.load_onnx_model(onnx_path)
             from torch import tensor
             self.input_convert_func = lambda x: tensor(x)
