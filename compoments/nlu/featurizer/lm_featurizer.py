@@ -50,9 +50,11 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         )
         output_path = Path(self.component_config['output_dir'])
         if self.component_config["onnx"]:
-            onnx_path = (output_path / f"{self.model_name}.onnx").absolute()
+            onnx_path = old_onnx_path = (output_path / f"{self.model_name}.onnx").absolute()
             if self.is_clean_dir(output_path):
                 # onnx 转化
+                logger.info("进行 onnx 转化")
+
                 convert_graph_to_onnx.convert(
                     framework="pt",  # tf 暂时有问题, 转化后无法使用
                     model=self.model_weights,
@@ -62,10 +64,11 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
                 )
 
             if self.component_config["quantize"]:
+                logger.info("进行量化")
                 onnx_path = onnx_path.with_name("-optimized-quantized.".join(onnx_path.name.split(".")))
                 if not onnx_path.exists():
                     # 开启量化
-                    optimize_path = convert_graph_to_onnx.optimize(onnx_path)
+                    optimize_path = convert_graph_to_onnx.optimize(old_onnx_path)
                     Path(onnx_path).unlink()
                     onnx_path = convert_graph_to_onnx.quantize(optimize_path)
                     Path(optimize_path).unlink()
