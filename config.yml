@@ -10,10 +10,12 @@ pipeline:
   - name: compoments.nlu.tokenizers.bert_tokenizer.CustomBertTokenizer
     cache_dir: ./tmp
     model_weights: pre_models
-  - name: LanguageModelFeaturizer
+  - name: compoments.nlu.featurizer.lm_featurizer.OnnxLanguageModelFeaturizer
     cache_dir: ./tmp
     model_name: bert
     model_weights: pre_models
+    onnx: false
+    quantize: true
   - name: DIETClassifier
     epochs: 100
   - name: RegexEntityExtractor
