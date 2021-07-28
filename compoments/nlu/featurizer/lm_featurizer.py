@@ -121,7 +121,7 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         return sequence_hidden_states
 
     @staticmethod
-    def load_onnx_model(path: str):
+    def load_onnx_model(path: Path):
         from os import environ
         from psutil import cpu_count
 
@@ -135,7 +135,7 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         options = SessionOptions()
         options.intra_op_num_threads = 1
         options.execution_mode = ExecutionMode.ORT_SEQUENTIAL
-        session = InferenceSession(path, options)
+        session = InferenceSession(str(path.absolute()), options)
         return session
 
     @staticmethod
