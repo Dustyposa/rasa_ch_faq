@@ -111,7 +111,8 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         """
         t1 = time.perf_counter()
         model_outputs = self.mode_run(
-            self.input_convert_func(padded_token_ids), attention_mask=self.input_convert_func(batch_attention_mask)
+            {"input_ids": self.input_convert_func(padded_token_ids),
+             "attention_mask": self.input_convert_func(batch_attention_mask)}
         )
 
         print(f"cost time: {time.perf_counter() - t1}")
