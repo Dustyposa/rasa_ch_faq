@@ -110,8 +110,10 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
             Sequence level representations from the language model.
         """
         t1 = time.perf_counter()
+        inputs = self._create_model_input(batch_attention_mask, padded_token_ids)
+        print(f"inputs: {inputs}")
         model_outputs = self.mode_run(
-            self._create_model_input(batch_attention_mask, padded_token_ids)
+            inputs
         )
 
         print(f"cost time: {time.perf_counter() - t1}")
