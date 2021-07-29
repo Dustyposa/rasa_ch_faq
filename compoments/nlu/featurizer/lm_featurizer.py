@@ -111,8 +111,7 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         """
         t1 = time.perf_counter()
         model_outputs = self.mode_run(
-            {"input_ids": self.input_convert_func(padded_token_ids),
-             "attention_mask": self.input_convert_func(batch_attention_mask)}
+            self._create_model_input(batch_attention_mask, padded_token_ids)
         )
 
         print(f"cost time: {time.perf_counter() - t1}")
@@ -142,3 +141,10 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
     @staticmethod
     def is_clean_dir(path: Path) -> bool:
         return not path.exists() or next(path.iterdir(), None) is None
+
+    def _create_model_input(self, batch_attention_mask: np.ndarray, padded_token_ids: List[List[int]]):
+        return {
+            "input_ids": self.input_convert_func(padded_token_ids),
+            "attention_mask": self.input_convert_func(batch_attention_mask),
+            "token_type_ids": self.input_convert_func(np.zeros((1, len(batch_attention_mask[0])), int))
+        }
