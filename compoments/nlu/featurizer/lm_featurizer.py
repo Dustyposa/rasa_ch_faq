@@ -2,7 +2,6 @@ import logging
 from functools import partial
 from pathlib import Path
 from typing import List
-import time
 
 import numpy as np
 
@@ -34,6 +33,7 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
             skip_model_load: Skip loading the model instances to save time. This
             should be True only for pytests
         """
+        print(self.component_config)
         if skip_model_load:
             # This should be True only during pytests
             return
@@ -51,7 +51,7 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         output_path = Path(self.component_config['output_dir'])
         if self.component_config["onnx"]:
             onnx_path = old_onnx_path = (output_path / f"{self.model_name}.onnx").absolute()
-            if self.is_clean_dir(output_path):
+            if self.is_clean_dir(output_path) or not onnx_path.exists():
                 # onnx 转化
                 logger.info("进行 onnx 转化")
 
@@ -70,22 +70,23 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
                     # 开启量化
                     optimize_path = convert_graph_to_onnx.optimize(old_onnx_path)
                     onnx_path = convert_graph_to_onnx.quantize(optimize_path)
-                    Path(old_onnx_path).unlink()
                     Path(optimize_path).unlink()
-
+            logger.info("加载onnx模型")
             self.model = self.load_onnx_model(onnx_path)
-            from torch import tensor
-            self.input_convert_func = lambda x: tensor(x)
-            self.mode_run = lambda x: partial(self.model.run, None)(x)[0]
-            self.get_feature = lambda x: x[0].detach().numpy()
+            self.input_convert_func = lambda x: np.array(x, dtype="i8")
+            self.mode_run = lambda x: partial(self.model.run, None)(x)
+            self.get_feature = lambda x: x[0]
+            self._create_model_input = self._create_model_input_for_pt_onnx
 
         else:
+            logger.info("加载非onnx模型")
             self.model = model_class_dict[self.model_name].from_pretrained(
                 self.model_weights, cache_dir=self.cache_dir
             )
             self.input_convert_func = lambda x: np.array(x)
             self.mode_run = self.model
             self.get_feature = lambda x: x[0].numpy()
+            self._create_model_input = self._create_model_input_for_normal
 
         # Use a universal pad token since all transformer architectures do not have a
         # consistent token. Instead of pad_token_id we use unk_token_id because
@@ -109,14 +110,10 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         Returns:
             Sequence level representations from the language model.
         """
-        t1 = time.perf_counter()
         inputs = self._create_model_input(batch_attention_mask, padded_token_ids)
-        print(f"inputs: {inputs}")
         model_outputs = self.mode_run(
             inputs
         )
-
-        print(f"cost time: {time.perf_counter() - t1}")
         # sequence hidden states is always the first output from all models
         sequence_hidden_states = self.get_feature(model_outputs)
 
@@ -144,9 +141,17 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
     def is_clean_dir(path: Path) -> bool:
         return not path.exists() or next(path.iterdir(), None) is None
 
-    def _create_model_input(self, batch_attention_mask: np.ndarray, padded_token_ids: List[List[int]]):
+    def _create_model_input_for_pt_onnx(self, batch_attention_mask: np.ndarray, padded_token_ids: List[List[int]]):
+        row, column = batch_attention_mask.shape
         return {
             "input_ids": self.input_convert_func(padded_token_ids),
             "attention_mask": self.input_convert_func(batch_attention_mask),
-            "token_type_ids": self.input_convert_func(np.zeros((1, len(batch_attention_mask[0])), int))
+            "token_type_ids": self.input_convert_func(
+                np.zeros((row, column)))
+        }
+
+    def _create_model_input_for_normal(self, batch_attention_mask: np.ndarray, padded_token_ids: List[List[int]]):
+        return {
+            "input_ids": self.input_convert_func(padded_token_ids),
+            "attention_mask": self.input_convert_func(batch_attention_mask),
         }
