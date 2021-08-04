@@ -80,6 +80,8 @@ pip install torch==1.9.0 transformers==4.8.2 onnx==1.9.0 onnxruntime==1.8.0 onnx
 rasa train nlu && rasa test nlu
 cat results/intent_errors.json
 ```
+4. 为什么没有用 `tensorflow` 用来做 `onnx`
+尝试多次，都失败了，暂时未找到解决办法（输入的纬度不匹配），如果有人成功了，可以告诉我！！感谢！！！🙏
 
 #### [我要直接看答案！！！](./data/nlu/responses/responses.yml)
 
