@@ -6,7 +6,6 @@ from typing import List
 import numpy as np
 
 from rasa.nlu.featurizers.dense_featurizer.lm_featurizer import LanguageModelFeaturizer
-from transformers import convert_graph_to_onnx
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,6 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
             skip_model_load: Skip loading the model instances to save time. This
             should be True only for pytests
         """
-        print(self.component_config)
         if skip_model_load:
             # This should be True only during pytests
             return
@@ -50,11 +48,13 @@ class OnnxLanguageModelFeaturizer(LanguageModelFeaturizer):
         )
         output_path = Path(self.component_config['output_dir'])
         if self.component_config["onnx"]:
+            from transformers import convert_graph_to_onnx
+
             onnx_path = old_onnx_path = (output_path / f"{self.model_name}.onnx").absolute()
             if self.is_clean_dir(output_path) or not onnx_path.exists():
                 # onnx 转化
                 logger.info("进行 onnx 转化")
-
+                from transformers import convert_graph_to_onnx
                 convert_graph_to_onnx.convert(
                     framework="pt",  # tf 暂时有问题, 转化后无法使用
                     model=self.model_weights,

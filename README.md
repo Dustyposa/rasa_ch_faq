@@ -6,6 +6,7 @@
 欢迎大家多提 `RASA` 相关的问题，或者想看的示例，我会补充在这里。
 >  前端地址: [这里](https://github.com/Dustyposa/rasa_bot_front)
 #### 功能更新
+- [2021-08-04] 增加 onnx + 量化（用于提高特征提取的速度）的 `feature` 提取[组件](./compoments/nlu/featurizer/lm_featurizer.py) # [一些注意事项](#ONNX注意事项) 
 - [2021-06-24] 增加知图谱的接入(放在[GRAPH](https://github.com/Dustyposa/rasa_ch_faq/tree/GRAPH)分支了)
 - [2021-06-01] 增加`文本纠错 pipeline` (由于 `demo` 较慢，默认未开启，如何[开启](./compoments/nlu/helpers#文本纠错)？)
 - [2021-05-20] `AlbertFeaturizer` （在[dev](https://github.com/Dustyposa/rasa_ch_faq/tree/dev)分支） 
@@ -54,6 +55,30 @@ load_model.py   # 直接加载并运行模型，与 server 无关。（需要先
 back_translation.py  # 回译脚本
 # 使用方式
 python back_translation.py 需要回译的文本
+```
+
+### ONNX注意事项
+#### 1. 使用说明
+`config` 更改为：
+```yaml
+  - name: compoments.nlu.featurizer.lm_featurizer.OnnxLanguageModelFeaturizer
+    cache_dir: ./tmp
+    model_name: bert
+    model_weights: pre_models
+    onnx: false  # 是否开启 onnx
+    quantize: true  # 是否使用量化
+```
+#### 2. 依赖安装
+```yaml
+pip install torch==1.9.0 transformers==4.8.2 onnx==1.9.0 onnxruntime==1.8.0 onnxruntime-tools==1.7.0 psutil==5.8.0
+```
+#### 3. 一些注释
+1. 速度能提升多少， 可以参考[这篇](https://medium.com/microsoftazure/accelerate-your-nlp-pipelines-using-hugging-face-transformers-and-onnx-runtime-2443578f4333)文章
+2. 量化后 速度有额外提升，但是效果可能会变差，需要根据语料调整
+3. 如何测试效果并查看结果
+```bash
+rasa train nlu && rasa test nlu
+cat results/intent_errors.json
 ```
 
 #### [我要直接看答案！！！](./data/nlu/responses/responses.yml)

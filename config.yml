@@ -14,8 +14,8 @@ pipeline:
     cache_dir: ./tmp
     model_name: bert
     model_weights: pre_models
-    onnx: false
-    quantize: true
+    onnx: false  # 因为有依赖，默认未开启
+    quantize: false
   - name: DIETClassifier
     epochs: 100
   - name: RegexEntityExtractor
