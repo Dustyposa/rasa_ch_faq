@@ -68,6 +68,10 @@ python back_translation.py 需要回译的文本
     onnx: false  # 是否开启 onnx
     quantize: true  # 是否使用量化
 ```
+下载 `torch` 的模型
+```bash
+curl -L https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chinese-pytorch_model.bin -o pre_models/pytorch_model.bin
+```
 #### 2. 依赖安装
 ```yaml
 pip install torch==1.9.0 transformers==4.8.2 onnx==1.9.0 onnxruntime==1.8.0 onnxruntime-tools==1.7.0 psutil==5.8.0
