@@ -106,7 +106,7 @@ responses:
 
   utter_rasa_faq/conversation和sender的关系:
     - text: "
-    conversation id == sender
+    conversation id == sender id
     conversation_id 属于比较老的叫法，根据 https://rasa.com/docs/rasa/pages/http-api#operation/getConversationTracker 的返回来看， conversation 字段已经被 sender 替换了。
     "
 
