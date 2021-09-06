@@ -202,6 +202,20 @@ nlu:
       - 越来越慢怎么办
       - 为什么越来越慢
 
+  - intent: rasa_faq/多意图
+    exaplese: |
+      - 为什么需要多意图？
+      - 多意图是什么？
+      - 多意图怎么使用
+      - 为什么多意图用+连接
+
+  - intent: rasa_faq/教程
+    examples: |
+      - 哪里有rasa的教程
+      - 哪里可以看教程
+      - 视频教程有吗
+      - 视频教程可以在哪里看
+      - 有没有系列教程
 
   - synonym: form
     examples: |

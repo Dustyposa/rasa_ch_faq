@@ -145,3 +145,8 @@ responses:
   utter_rasa_faq/限制event长度:
     - text: "可以参考 https://medium.com/graymatrix/using-a-custom-tracker-store-to-manage-max-event-history-in-rasa-e99279ca615f"
 
+  utter_rasa_faq/多意图:
+    - text: "为什么需要多意图可以参考: https://forum.rasa.com/t/why-would-one-want-multi-intent/47489"
+
+  utter_rasa_faq/rasa_教程:
+    - text: "视频可以在这里看系列教程: https://www.youtube.com/c/RasaHQ"
