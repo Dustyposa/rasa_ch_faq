@@ -217,6 +217,14 @@ nlu:
       - 视频教程可以在哪里看
       - 有没有系列教程
 
+  - intent: rasa_faq/action触发form
+    examples: |
+      - 怎么在action里面触发form呢
+      - 可以手动触发form吗
+      - form对应什么action
+      - 怎么手动触发form action
+      - 可以动态触发form action吗
+
   - synonym: form
     examples: |
       - 表单

@@ -150,3 +150,6 @@ responses:
 
   utter_rasa_faq/rasa_教程:
     - text: "视频可以在这里看系列教程: https://www.youtube.com/c/RasaHQ"
+
+  utter_rasa_faq/action触发form:
+    - text: "执行 ActiveLoop action, 例如在 run 函数中: return [ActiveLoop(name='xxx_form', timestamp=...)]"
