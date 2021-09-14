@@ -38,7 +38,7 @@
 并放到 `pre_models` 文件夹中，重命名为 `tf_model.h5`
 命令执行:
 ```bash
-curl -L https://mirror.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chinese-tf_model.h5 -o pre_models/tf_model.h5
+curl -L https://www.flyai.com/m/bert-base-chinese-tf_model.h5 -o pre_models/tf_model.h5
 rasa train
 ``` 
 
@@ -70,7 +70,7 @@ python back_translation.py 需要回译的文本
 ```
 下载 `torch` 的模型
 ```bash
-curl -L https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chinese-pytorch_model.bin -o pre_models/pytorch_model.bin
+curl -L https://www.flyai.com/m/bert-base-chinese-pytorch_model.bin -o pre_models/pytorch_model.bin
 ```
 #### 2. 依赖安装
 ```yaml
@@ -98,7 +98,7 @@ cd rasa_ch_faq
 #### 2. 安装依赖
 ```bash
 pip install -r requirements.txt
-curl -L https://mirror.tuna.tsinghua.edu.cn/hugging-face-models/bert-base-chinese-tf_model.h5 -o pre_models/tf_model.h5
+curl -L https://www.flyai.com/m/bert-base-chinese-tf_model.h5 -o pre_models/tf_model.h5
 rasa train
 ```
 ps: 注意 `python` 版本 `37+`
