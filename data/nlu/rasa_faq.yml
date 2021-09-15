@@ -203,7 +203,7 @@ nlu:
       - 为什么越来越慢
 
   - intent: rasa_faq/多意图
-    exaplese: |
+    examples: |
       - 为什么需要多意图？
       - 多意图是什么？
       - 多意图怎么使用
